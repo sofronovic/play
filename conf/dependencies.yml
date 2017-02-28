@@ -1,0 +1,5 @@
+# Application dependencies
+
+require:
+    - play
+    - net.sourceforge.jtds ->jtds 1.3.1
