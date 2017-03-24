@@ -1,0 +1,98 @@
+#{extends 'main.html'/}
+
+<script>
+
+$(document).ready(function(){
+  $("tr").click(function() {
+ 	 //ne reagujemo na klik na header tabele, samo obicne redove
+ 	 //this sadrzi red na koji se kliknulo
+  	if(!$(this).hasClass("header")){
+  		//klasa highlighted postavlja pozadinu na zutu
+  		//njenim dodavanjem ili uklanjanjem oznacavamo da neki red
+  		//dobija, odnosno gubi selekciju
+  		//uklanjamo sa trenutno selektovanog
+  		$(".highlighted").removeClass("highlighted");
+  		//dodajemo na novi selektovani
+    	$(this).addClass("highlighted");
+    	//pozivamo sinhronizaciju, prosledjujemo dati red
+    	sync($(this));
+    }
+  });
+  
+  $("#first").click(function(){
+  		//indeksi pocinju od 1
+  		//prvi red je header, zato se trazi drugo dete
+  		item = $("table tr:nth-child(2)");
+  		$(".highlighted").removeClass("highlighted");
+		item.toggleClass("highlighted");
+		sync(item);
+	});
+	
+	  $("#last").click(function(){
+  		//indeksi pocinju od 1
+  		//prvi red je header, zato se trazi drugo dete
+  		item = $("table tr:last-child");
+  		$(".highlighted").removeClass("highlighted");
+		item.toggleClass("highlighted");
+		sync(item);
+	});
+	
+  $("#next").click(function(){
+  		highlighted = $(".highlighted");
+  		//nalazi poziciju trazanog u okviru selektovane selekcije
+  		//indeksi pocinju od 0
+  		index =  $("tr").index(highlighted);
+  		var count = $("tr").length - 1;
+  		if (count == 0 || index < 0)
+  			return;
+  		if (index == count)//ako smo na poslednjem, predji na prvi (odnosno drugi red, preskacuci header)
+  			index = 2;
+  		else
+  			index += 2; //povecavamo za 1, i jos dodajemo 1 jer nth child pocinje od 1, indeksi od 0
+		item = $("tr:nth-child(" + index + ")");
+  		$(".highlighted").removeClass("highlighted");
+		item.addClass("highlighted");
+  		sync(item);
+	});
+	
+	$("#prev").click(function(){
+	highlighted = $(".highlighted");
+	index =  $("tr").index(highlighted);
+	var count = $("tr").length - 1;
+	if (count == 0 || index < 0)
+  		return;
+  	if (index == 1)
+  		index = count+1;
+  	else
+  		index;
+  	item = $("tr:nth-child(" + index + ")");
+  	$(".highlighted").removeClass("highlighted");
+	item.addClass("highlighted");
+  	sync(item);
+  	});
+  	
+  	
+  	
+  	$("#remove").click(function(){
+	highlighted = $(".highlighted");
+	id = highlighted.find(".id").html();
+	remove(id);
+	});
+	
+	
+	$("#nextform").click(function(){
+	highlighted = $(".highlighted");
+	id = highlighted.find(".id").html();
+	nextForm(id);
+	});
+  	
+	
+	
+});
+
+</script>
+
+#{doLayout/}
+
+
+

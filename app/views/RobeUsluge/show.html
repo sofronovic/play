@@ -1,0 +1,116 @@
+#{extends 'standardForm.html' /}
+#{set title:'Robe/Usluge' /}
+
+<script>
+$(document).ready(function(){
+	$("#porezPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		$('#porezModal').modal('toggle');
+	});
+});
+
+function sync(item){
+	naziv = item.find(".naziv").html()
+	jedinicaMere = item.find(".jedinicaMere").html()
+    id = item.find(".id").html()
+    $("#naziv").val(naziv);
+	$('#jedinicaMere').val(jedinicaMere);
+    $("#id").val(id);
+}
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{RobeUsluge.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{RobeUsluge.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{RobeUsluge.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+<div class = "container-fluid">
+<h1>Robe/Usluge</h1>
+
+<table>
+	<tr class = "header">
+	   <th>Naziv</th> 
+	   <th>Jedinica mere</th>
+	   <th>Grupa</th>
+	</tr>
+#{list items:robeUsluge, as:'i'}
+	<tr>
+		<td class = "naziv">${i.naziv}</td>
+		<td class = "jedinicaMere">${i.jedinicaMere}</td>
+		<td class = "grupa">${i.grupa.naziv}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+    #{if mode == 'add'}
+        @{RobeUsluge.add()}
+    #{/if}
+    #{elseif mode == 'edit'}
+        @{RobeUsluge.edit()}
+    #{/elseif}
+    #{elseif mode == 'remove'}
+        @{RobeUsluge.delete()}
+    #{/elseif}
+    #{else}
+       @{RobeUsluge.filter()}
+    #{/else}
+  #{/set}
+
+<div class = "panel">
+	<p>
+	
+		<form action = "${action}">
+			
+			#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			
+			<p>
+			#{field 'naziv'}
+					<label for = "${field.id}">Naziv</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'jedinicaMere'}
+					<label for = "${field.id}">Jedinica Mere</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'grupa'}
+				<label for = "${field.id}">Grupa</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:grupe, as:'i'}
+				<option value = "${i.id}">${i.naziv}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			
+			<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{RobeUsluge.show("")}" style="margin-left:1em">Rollback</a>
+				</div>	
+		</form>
+			</p>
+</div>

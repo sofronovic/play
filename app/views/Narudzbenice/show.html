@@ -1,0 +1,129 @@
+#{extends 'standardForm.html' /}
+#{set title:'Narudzbenice' /}
+
+<script>
+$(document).ready(function(){
+	$("#porezPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		$('#porezModal').modal('toggle');
+	});
+});
+
+function sync(item){
+	brojNarudzbenice = item.find(".brojNarudzbenice").html()
+	kolicina = item.find(".kolicina").html()
+    id = item.find(".id").html()
+    $("#brojNarudzbenice").val(brojNarudzbenice);
+    $("#kolicina").val(kolicina);	
+    $("#id").val(id);
+}
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{Narudzbenice.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{Narudzbenice.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{Narudzbenice.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+<div class = "container-fluid">
+<h1>Narudzbenice</h1>
+
+<table>
+	<tr class = "header">
+	   <th>Broj narudzbenice</th> 
+	   <th>Kolicina</th>
+	   <th>Poslovna godina</th>
+	   <th>Poslovni partner</th>
+	</tr>
+#{list narudzbenice, as:'i'}
+	<tr>
+		<td class = "brojNarudzbenice">${i.brojNarudzbenice}</td>
+		<td class = "kolicina">${i.kolicina}</td>
+		<td class = "poslovnaGodina">${i.poslovnaGodina.godina}</td>
+		<td class = "poslovniPartner">${i.poslovniPartner.nazivPartnera}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+    #{if mode == 'add'}
+        @{Narudzbenice.add()}
+    #{/if}
+    #{elseif mode == 'edit'}
+        @{Narudzbenice.edit()}
+    #{/elseif}
+    #{elseif mode == 'remove'}
+        @{Narudzbenice.delete()}
+    #{/elseif}
+    #{else}
+       @{Narudzbenice.filter()}
+    #{/else}
+  #{/set}
+
+<div class = "panel">
+	<p>
+	
+		<form action = "${action}">
+			
+			#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			
+			<p>
+			#{field 'brojNarudzbenice'}
+					<label for = "${field.id}">Broj narudzbenice</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			<p>
+			#{field 'kolicina'}
+					<label for = "${field.id}">Kolicina</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			<p>
+			#{field 'poslovnaGodina'}
+				<label for = "${field.id}">Poslovna godina</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:poslovneGodine, as:'i'}
+				<option value = "${i.id}">${i.godina}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'poslovniPartner'}
+				<label for = "${field.id}">Poslovni partner</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:poslovniPartneri, as:'i'}
+				<option value = "${i.id}">${i.nazivPartnera}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			
+			<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{Narudzbenice.show("")}" style="margin-left:1em">Rollback</a>
+				</div>	
+		</form>
+			</p>
+</div>

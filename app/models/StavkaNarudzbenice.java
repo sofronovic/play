@@ -7,8 +7,8 @@ import javax.persistence.ManyToOne;
 import play.db.jpa.Model;
 
 @Entity
-public class StavkeNarudzbenice extends Model {
-
+public class StavkaNarudzbenice extends Model {
+	
 	@Column(nullable = false)
 	public float kolicina;
 	

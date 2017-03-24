@@ -1,0 +1,121 @@
+#{extends 'standardForm.html' /}
+#{set title:'Stavke cenovnika' /}
+
+<script>
+$(document).ready(function(){
+	$("#porezPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		$('#porezModal').modal('toggle');
+	});
+});
+
+function sync(item){
+	jedinicnaCena = item.find(".jedinicnaCena").html()
+    id = item.find(".id").html()
+    $("#jedinicnaCena").val(jedinicnaCena);
+    $("#id").val(id);
+}
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{StavkeCenovnici.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{StavkeCenovnici.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{StavkeCenovnici.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+<div class = "container-fluid">
+<h1>Stavke cenovnika</h1>
+
+<table>
+	<tr class = "header">
+	   <th>Jedinicna cena</th> 
+	   <th>Cenovnik (Datum primene)</th>
+	   <th>Roba/Usluga</th>
+	</tr>
+#{list items:stavkeCenovnika, as:'i'}
+	<tr>
+		<td class = "jedinicnaCena">${i.jedinicnaCena}</td>
+		<td class = "cenovnik">${i.cenovnik.datumPrimene}</td>
+		<td class = "robaUsluga">${i.robaUsluga.naziv}</td>
+		
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+    #{if mode == 'add'}
+        @{StavkeCenovnici.add()}
+    #{/if}
+    #{elseif mode == 'edit'}
+        @{StavkeCenovnici.edit()}
+    #{/elseif}
+    #{elseif mode == 'remove'}
+        @{StavkeCenovnici.delete()}
+    #{/elseif}
+    #{else}
+       @{StavkeCenovnici.filter()}
+    #{/else}
+  #{/set}
+
+<div class = "panel">
+	<p>
+	
+		<form action = "${action}">
+			
+			#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			
+			<p>
+			#{field 'jedinicnaCena'}
+					<label for = "${field.id}">Jedinicna Cena</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			<p>
+			#{field 'cenovnik'}
+				<label for = "${field.id}">Cenovnik (Datum primene)</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:cenovnici, as:'i'}
+				<option value = "${i.id}">${i.datumPrimene}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'robaUsluga'}
+				<label for = "${field.id}">Roba/Usluga</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:robaUsluga, as:'i'}
+				<option value = "${i.id}">${i.naziv}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			
+			
+			<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{StavkeCenovnici.show("")}" style="margin-left:1em">Rollback</a>
+				</div>	
+		</form>
+			</p>
+</div>

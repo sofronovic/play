@@ -1,0 +1,134 @@
+#{extends 'standardForm.html' /}
+#{set title:'IstorijePoreza' /}
+
+<script>
+
+	$(document).ready(function(){
+		$("#preduzecePickup").click(function(){
+			id = $(".highlighted").find(".id").html();
+			$("select").val(id);
+			$('#preduzeceModal').modal('toggle');
+		});
+	});
+	
+	function sync(item){
+		datum = item.find(".istorija_datum").html()
+		naziv = item.find(".naziv_preduzeca").html()
+		id = item.find(".id").html()
+		$("#datum").val(datum);
+		$("#naziv").val(naziv);
+		$("#id").val(id);
+	}
+</script>
+
+<p>
+<ul>
+  <li><a href="@{IstorijePoreza.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{IstorijePoreza.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{IstorijePoreza.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+<p>
+
+<div class = "container-fluid">
+<h1>Istorije poreza</h1>
+
+<table>
+	<tr class = "header">
+		<th>Datum primene</th>
+		<th>Preduzece</th>
+
+	</tr>
+#{list items:istorijePoreza, as:'i'}
+	<tr>
+		<td class = "istorija_datum">${i.datumPrimene}</td>
+		<td class = "naziv_preduzeca">${i.preduzece.naziv}</td>
+		
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{IstorijePoreza.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{IstorijePoreza.edit()}
+	#{/elseif}
+	
+	#{elseif mode == 'remove'}
+		@{IstorijePoreza.delete()}
+	#{/elseif}
+	
+	#{else}
+		@{IstorijePoreza.filter()}
+	#{/else}
+#{/set}
+
+<div class = "panel">
+	<p>
+		<form action = "${action}" method = "post">
+			
+			#{field 'id'}
+				<input type = "hidden" name = "${field.name}" id = "${field.id}" />
+			#{/}
+			
+			<p>
+			
+			#{field 'datum'}
+				<label for = "${field.id}">Datum</label>
+				<input type = "text" name = "${field.name}" id = "${field.name}"/>
+			#{/}
+			</p>
+			#{field 'naziv'}
+				<label for = "${field.id}">Preduzece</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:preduzeca, as:'p'}
+				<option value = "${p.id}">${p.naziv}</option>
+			#{/list}
+				</select>
+				<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#preduzeceModal">...	</button>	
+			#{/}
+			
+			<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{IstorijePoreza.show("")}" style="margin-left:1em">Rollback</a>
+			</div>
+			</form>
+
+</div>
+
+<div class="modal fade" id="preduzeceModal" role="dialog">
+	    <div class="modal-dialog">
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	      <div class="modal-header">
+	      	Države
+	      </div>
+	      <div class="modal-body">
+		    <table style = "padding:2em">
+			<tr class = "header">
+			   <th>Naziv</th>
+			</tr>
+			#{list items:preduzeca, as:'i'}
+			<tr>
+				<td class = "naziv">${i.naziv}</td>
+				<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
+			</tr>
+			#{/list}
+			</table>
+			<div class="modal-footer">
+				<input id = "preduzecePickup" type = "button" value = "izbor"/>
+			</div>
+			</div>
+	      </div>
+	    </div>
+	   </div>

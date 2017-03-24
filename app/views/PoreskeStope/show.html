@@ -1,0 +1,120 @@
+#{extends 'standardForm.html' /}
+#{set title:'Poreske stope' /}
+
+<script>
+$(document).ready(function(){
+	$("#porezPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		$('#porezModal').modal('toggle');
+	});
+});
+
+function sync(item){
+	iznosStope = item.find(".iznosStope").html()
+    id = item.find(".id").html()
+    $("#iznosStope").val(iznosStope);
+    $("#id").val(id);
+}
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{PoreskeStope.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{PoreskeStope.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{PoreskeStope.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+<div class = "container-fluid">
+<h1>Poreske stope</h1>
+
+<table>
+	<tr class = "header">
+	   <th>Poreska stopa</th> 
+	   <th>Istorija Poreza (Datum primene)</th>
+	   <th>Porez</th>
+	</tr>
+#{list items:poreskeStope, as:'i'}
+	<tr>
+		<td class = "iznosStope">${i.iznosStope}</td>
+		<td class = "istorijaPoreza">${i.istorijaPoreza.datumPrimene}</td>
+		<td class = "porez">${i.porez.nazivPoreza}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+    #{if mode == 'add'}
+        @{PoreskeStope.add()}
+    #{/if}
+    #{elseif mode == 'edit'}
+        @{PoreskeStope.edit()}
+    #{/elseif}
+    #{elseif mode == 'remove'}
+        @{PoreskeStope.delete()}
+    #{/elseif}
+    #{else}
+       @{PoreskeStope.filter()}
+    #{/else}
+  #{/set}
+
+<div class = "panel">
+	<p>
+	
+		<form action = "${action}">
+			
+			#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			
+			<p>
+			#{field 'iznosStope'}
+					<label for = "${field.id}">Iznos stope</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			<p>
+			#{field 'istorijaPoreza'}
+				<label for = "${field.id}">Istorija poreza (Datum primene)</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:istorijePoreza, as:'i'}
+				<option value = "${i.id}">${i.datumPrimene}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			<p>
+			#{field 'porez'}
+				<label for = "${field.id}">Porez</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:porezi, as:'i'}
+				<option value = "${i.id}">${i.nazivPoreza}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			
+			<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{PoreskeStope.show("")}" style="margin-left:1em">Rollback</a>
+				</div>	
+		</form>
+			</p>
+</div>
+<!-- 
+Modal -->

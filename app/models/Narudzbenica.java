@@ -28,5 +28,5 @@ public class Narudzbenica extends Model {
 	public List<Otpremnica> otpremnica;
 	
 	@OneToMany(mappedBy="narudzbenica")
-	public List<StavkeNarudzbenice> stavkeNarudzbenice;
+	public List<StavkaNarudzbenice> stavkeNarudzbenice;
 }

@@ -1,0 +1,147 @@
+#{extends 'standardForm.html' /}
+#{set title: 'Preduzeca' /}
+
+<script>
+
+	function sync(item){
+		PIB = item.find(".PIB").html()
+		naziv = item.find(".naziv").html()
+		adresa = item.find(".adresa").html()
+		maticniBroj = item.find(".maticniBroj").html()
+		sifraDelatnosti = item.find(".sifraDelatnosti").html()
+		telefon = item.find(".telefon").html()
+		email = item.find(".email").html()
+		id = item.find(".id").html()
+		$("#PIB").val(PIB);
+		$("#naziv").val(naziv);
+		$("#adresa").val(adresa);
+		$("#maticniBroj").val(maticniBroj);
+		$("#sifraDelatnosti").val(sifraDelatnosti);
+		$("#telefon").val(telefon);
+		$("#email").val(email);
+		$("#id").val(id);
+	}
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{Preduzeca.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{Preduzeca.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{Preduzeca.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+<p>
+
+<h1>Preduzeca</h1>
+
+<table>
+	
+	<tr class = "header">
+		<th>PIB</th>
+		<th>Naziv</th>
+		<th>Adresa</th>
+		<th>Maticni Broj</th>
+		<th>Sifra Delatnosti</th>
+		<th>Telefon</th>
+		<th>Email</th>
+	</tr>
+	
+#{list items:preduzeca, as:'i'}
+	<tr>
+		<td class="PIB">${i.PIB}</td>
+		<td class="naziv">${i.naziv}</td>
+		<td class="adresa">${i.adresa}</td>	
+		<td class="maticniBroj">${i.maticniBroj}</td>
+		<td class="sifraDelatnosti">${i.sifraDelatnosti}</td>
+		<td class="telefon">${i.telefon}</td>
+		<td class="email">${i.email}</td>
+		<td style="visibility: hidden; max-width: 0px;" class="id">${i.id}</td>
+	</tr>
+#{/list}
+	
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{Preduzeca.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{Preduzeca.edit()}
+	#{/elseif}
+	
+	#{elseif mode == 'remove'}
+		@{Preduzeca.delete()}
+	#{/elseif}
+	
+	#{else}
+		@{Preduzeca.filter()}
+	#{/else}
+#{/set}
+
+<div class="panel">
+	
+	<p>
+		<form action=${action} method="post">
+			#{field 'id'}
+				<input type="hidden" name="${field.name}" id="${field.id}"/>
+			#{/}
+			<p>
+			#{field 'PIB'}
+				<label for="${field.id}">PIB</label>
+				<input type="text" name = "${field.name}" id = "${field.name}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'naziv'}
+				<label for="${field.id}">Naziv</label>
+				<input type="text" name="${field.name}" id="${field.name}"/>
+			#{/}
+			</p>
+			<p>
+			#{field 'adresa'}
+				<label for="${field.id}">Adresa</label>
+				<input type="text" name="${field.name}" id="${field.name}"/>
+			#{/}
+			</p>
+			<p>
+			#{field 'maticniBroj'}
+				<label for="${field.id}">Maticni Broj</label>
+				<input type="text" name="${field.name}" id="${field.name}"/>
+			#{/}
+			</p>
+			<p>
+			#{field 'sifraDelatnosti'}
+				<label for="${field.id}">Sifra Delatnosti</label>
+				<input type="text" name="${field.name}" id="${field.name}"/>
+			#{/}
+			</p>
+			<p>
+			#{field 'telefon'}
+				<label for="${field.id}">Telefon</label>
+				<input type="text" name="${field.name}" id="${field.name}"/>
+			#{/}
+			</p>
+			<p>
+			#{field 'email'}
+				<label for="${field.id}">Email</label>
+				<input type="text" name="${field.name}" id="${field.name}"/>
+			#{/}
+			</p>
+			
+			<div id="formActions">
+				<input type="submit" value="Potvrda" style="margin-left:6em">
+				<a href="@Preduzeca.show("")}" style="margin-left:6em">Rollback</a>
+			</div>
+		</form>
+
+</div>
