@@ -1,0 +1,105 @@
+#{extends 'standardForm.html' /}
+#{set title:'Status faktura' /}
+
+<script>
+$(document).ready(function(){
+	$("#porezPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		$('#porezModal').modal('toggle');
+	});
+});
+
+function sync(item){
+	naziv = item.find(".naziv").html()
+	id = item.find(".id").html()
+    $("#naziv").val(naziv);
+    $("#id").val(id);
+}
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{StatusFaktura.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{StatusFaktura.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{StatusFaktura.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+<div class = "container-fluid">
+<h1>Status faktura</h1>
+
+<table>
+	<tr class = "header">
+	   <th>Naziv</th>
+	   <th>Izlazna faktura</th>
+	</tr>
+#{list items:statusFakture, as:'i'}
+	<tr>
+		<td class = "naziv">${i.naziv}</td>
+		<td class = "izlaznaFaktura">${i.izlaznaFaktura.brojFakture}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
+	</tr>
+#{/list}
+</table>
+
++#{set 'action'}
+    #{if mode == 'add'}
+        @{StatusFaktura.add()}
+    #{/if}
+    #{elseif mode == 'edit'}
+        @{StatusFaktura.edit()}
+    #{/elseif}
+    #{elseif mode == 'remove'}
+        @{StatusFaktura.delete()}
+    #{/elseif}
+    #{else}
+       @{StatusFaktura.filter()}
+    #{/else}
+  #{/set}
+
+<div class = "panel">
+	<p>
+	
+		<form action = "${action}">
+			
+			#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			<p>
+			#{field 'naziv'}
+					<label for = "${field.id}">Naziv</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'izlaznaFaktura'}
+				<label for = "${field.id}">Izlazna faktura</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:izlaznaFaktura, as:'i'}
+				<option value = "${i.id}">${i.brojFakture}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			
+			
+			<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{StatusFaktura.show("")}" style="margin-left:1em">Rollback</a>
+				</div>	
+		</form>
+			</p>
+</div> 

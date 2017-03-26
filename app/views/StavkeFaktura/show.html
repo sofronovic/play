@@ -1,0 +1,175 @@
+#{extends 'standardForm.html' /}
+#{set title:'Stavke faktura' /}
+
+<script>
+
+
+$(document).ready(function(){
+	$("#porezPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		$('#porezModal').modal('toggle');
+	});
+});
+
+
+function sync(item){
+	kolicina = item.find(".kolicina").html()
+	cenaPoJediniciMere = item.find(".cenaPoJediniciMere").html()
+	rabat = item.find(".rabat").html()
+	osnovica = item.find(".rabat").html()
+    id = item.find(".id").html()
+    $("#kolicina").val(kolicina);
+	$("#cenaPoJediniciMere").val(cenaPoJedniciMere);
+	$("#rabat").val(rabat);
+    $("#osnovica").val(osnovica);
+    $("#id").val(id);
+}
+
+
+	
+</script>
+
+<p>
+<ul>
+  <li><a href="@{StavkeFaktura.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{StavkeFaktura.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{StavkeFaktura.delete("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+
+<h1>Stavke faktura</h1>
+
+<table>
+	<tr class = "header">
+	   <th>Kolicina</th> 
+	   <th>Cena po jedinici mere</th>
+	   <th>Rabat</th> 
+	   <th>Osnovica</th>
+	   <th>Izlazna faktura</th>
+	   <th>Porez</th>
+	   <th>Roba/Usluga</th>
+	</tr>
+#{list items:stavkeFakture, as:'s'}
+	<tr>
+		<td class = "kolicina">${s.kolicina}</td>
+		<td class = "cenaPoJediniciMere">${s.cenaPoJediniciMere}</td>
+		<td class = "rabat">${s.rabat}</td>
+		<td class = "osnovica">${s.osnovica}</td>
+		<td class = "izlaznaFaktura">${s.izlaznaFaktura.brojFakture}</td>
+		<td class = "porez">${s.porez.nazivPoreza}</td>
+		<td class = "robaUsluga">${s.robaUsluga.naziv}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${stavkeFakture.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{StavkeFaktura.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{StavkeFaktura.edit()}
+	#{/elseif}
+	#{elseif mode == 'delete'}
+		@{StavkeFaktura.delete()}
+	#{/elseif}	
+	#{else}
+		@{StavkeFaktura.filter()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				
+				#{field 'id'}
+					<input type="hidden" name="${field.name}" id="${field.id}"/>
+				#{/}
+				<p>
+				#{field 'kolicina'}
+					<label for = "${field.id}">Kolicina</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+					<span>#{error 'kolicina' /}</span>
+				#{/}
+			
+				</p>
+				<p>
+				#{field 'cenaPoJedniciMere'}
+					<label for = "${field.id}">Cena po jedinici mere</label>
+					<input type = "text" name = "${field.name}" id = "${field.name}"/>
+					<span>#{error 'cenaPoJediniciMere' /}</span>
+				#{/}
+				</p>
+				<p>
+				#{field 'rabat'}
+					<label for = "${field.id}">Rabat</label>
+					<input type = "text" name = "${field.name}" id = "${field.name}"/>
+					<span>#{error 'rabat' /}</span>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'osnovica'}
+					<label for = "${field.id}">Osnovica</label>
+					<input type = "text" name = "${field.name}" id = "${field.name}"/>
+					<span>#{error 'osnovica' /}</span>
+				#{/}
+				
+				</p>
+					<p>
+			#{field 'izlaznaFaktura'}
+				<label for = "${field.id}">Izlazna faktura</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:izlazneFakture, as:'i'}
+				<option value = "${i.id}">${i.brojFakture}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+				<p>
+			#{field 'porez'}
+				<label for = "${field.id}">Porez</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:porezi, as:'i'}
+				<option value = "${i.id}">${i.nazivPoreza}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+				<p>
+			#{field 'robaUsluga'}
+				<label for = "${field.id}">Roba/Usluga</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:robaUsluga, as:'i'}
+				<option value = "${i.id}">${i.naziv}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+				<div id = "formActions">
+					<input type = "submit" value ="Potvrda" style="margin-left:6em"/>
+					<a href = "@{StavkeFaktura.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+</p>
+</div>

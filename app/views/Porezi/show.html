@@ -1,0 +1,110 @@
+#{extends 'standardForm.html' /}
+#{set title:'Porezi' /}
+
+<script>
+
+
+$(document).ready(function(){
+	$("#porezPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		$('#porezModal').modal('toggle');
+	});
+});
+
+
+function sync(item){
+	vazeci = item.find(".vazeci").html()
+    nazivPoreza = item.find(".nazivPoreza").html()
+    id = item.find(".id").html()
+    $("#vazeci").val(vazeci);
+    $("#nazivPoreza").val(nazivPoreza);
+    $("#id").val(id);
+}
+
+
+	
+</script>
+
+<p>
+<ul>
+  <li><a href="@{Porezi.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{Porezi.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{Porezi.delete("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+
+<h1>Porezi</h1>
+
+<table>
+	<tr class = "header">
+	   <th>Vazeci</th> 
+	   <th>Naziv</th>
+	</tr>
+#{list items:porezi, as:'porez'}
+	<tr>
+		<td class = "vazeci">${porez.vazeci}</td>
+		<td class = "nazivPoreza">${porez.nazivPoreza}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${porez.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{Porezi.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{Porezi.edit()}
+	#{/elseif}
+	#{elseif mode == 'delete'}
+		@{Porezi.delete()}
+	#{/elseif}	
+	#{else}
+		@{Porezi.filter()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				
+				#{field 'id'}
+					<input type="hidden" name="${field.name}" id="${field.id}"/>
+				#{/}
+				<p>
+				#{field 'vazeci'}
+					<label for = "${field.id}">Vazeci</label>
+					<input type = "checkbox" name = "${field.name}" id = "${field.id}"/>
+					<span>#{error 'vazeci' /}</span>
+				#{/}
+			
+				</p>
+				<p>
+				#{field 'nazivPoreza'}
+					<label for = "${field.id}">Naziv</label>
+					<input type = "text" name = "${field.name}" id = "${field.name}"/>
+					<span>#{error 'nazivPoreza' /}</span>
+				#{/}
+				
+				</p>
+				<div id = "formActions">
+					<input type = "submit" value ="Potvrda" style="margin-left:6em"/>
+					<a href = "@{Porezi.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+</p>
+</div>
