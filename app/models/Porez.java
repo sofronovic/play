@@ -18,9 +18,6 @@ public class Porez extends Model{
 	public boolean vazeci;
 	
 	@OneToMany(mappedBy="porez")
-	public List<StavkeFakture> stavkeFakture;
-	
-	@OneToMany(mappedBy="porez")
 	public List<ObracunatiPorez> obracunatiPorez;
 	
 	@OneToMany(mappedBy="porez")

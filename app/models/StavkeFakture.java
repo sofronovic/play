@@ -12,23 +12,30 @@ import play.db.jpa.Model;
 @Entity
 public class StavkeFakture extends Model {
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public float kolicina;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public float cenaPoJediniciMere;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public float rabat;
 	
-	@Column(nullable = false, precision = 15, scale = 2)
+	@Column(nullable = true, precision = 15, scale = 2)
 	public float osnovica;
+	
+	@Column(nullable = true)
+	public float pdvIznos; 
+	
+	@Column(nullable = true)
+	public float ukupanIznos;
+	
+	@Column(nullable = true)
+	public float pdv;
 	
 	@ManyToOne
 	public IzlaznaFaktura izlaznaFaktura;
 	
-	@ManyToOne
-	public Porez porez;
 	
 	@ManyToOne
 	public RobaUsluga robaUsluga;

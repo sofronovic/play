@@ -41,8 +41,10 @@ public class Grupe extends Controller{
 	
 	public static void filter(String naziv, long preduzece, long porez){
 		List<Grupa> grupe = Grupa.find("byNazivLikeAndPreduzece_idAndPorez_id", naziv, preduzece, porez).fetch();
+		List<Preduzece> preduzeca = Preduzece.findAll();
+		List<Porez> porezi = Porez.findAll();
 		String mode = "edit";
-		renderTemplate("Grupe/show.html", grupe, mode);
+		renderTemplate("Grupe/show.html", grupe, preduzeca, porezi, mode);
 	}
 	
 	public static void edit(@Required String naziv, long preduzece, long porez, long id){

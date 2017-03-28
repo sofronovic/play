@@ -3,7 +3,6 @@ import java.util.List;
 import models.IzlaznaFaktura;
 import models.ObracunatiPorez;
 import models.Porez;
-import models.StatusFakture;
 import play.data.validation.Error;
 import play.data.validation.Required;
 import play.mvc.Controller;

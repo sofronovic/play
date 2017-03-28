@@ -16,35 +16,35 @@ public class IzlaznaFaktura extends Model {
 
 	@Column(unique = true, nullable = false)
 	public int brojFakture;
-	
-	@Column(unique = true, length = 1, nullable = false)
-	public String tipFakture;
-	
+
 	@Column(nullable = false)
 	public Date datumFakture;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public Date datumValute;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public Date datumObracuna;
 	
-	@Column(nullable = false, precision = 15, scale = 2)
+	@Column(nullable = true, precision = 15, scale = 2)
 	public float ukupnoRobe;
 	
-	@Column(nullable = false, precision = 15, scale = 2)
+	@Column(nullable = true, precision = 15, scale = 2)
 	public float ukupanRabat;
 	
-	@Column(nullable = false, precision = 15, scale = 2)
-	public float ukupanPorez;
+	@Column(nullable = true, precision = 15, scale = 2)
+	public float ukupanPorez; //pdv iznos ++
 	
-	@Column(nullable = false, precision = 15, scale = 2)
+	@Column(nullable = true, precision = 15, scale = 2)
 	public float iznosFakture;
 	
-	@Column(nullable = false, length = 40)
+	@Column(nullable = true, precision = 15, scale = 2)
+	public float iznosFaktureOsnovica; //todo
+	
+	@Column(nullable = true, length = 40)
 	public String uplataNaRacun;
 	
-	@Column(nullable = false, length = 20)
+	@Column(nullable = true, length = 20)
 	public String pozivNaBroj;
 	
 	@OneToMany(mappedBy="izlaznaFaktura")
@@ -53,8 +53,8 @@ public class IzlaznaFaktura extends Model {
 	@OneToMany(mappedBy="izlaznaFaktura")
 	public List<ObracunatiPorez> obracunatiPorez;
 	
-	@OneToOne
-	public StatusFakture statusFakture;
+	@Column(nullable = false) 
+	public String statusFakture;
 	
 	@ManyToOne
 	public PoslovniPartner poslovniPartner;
