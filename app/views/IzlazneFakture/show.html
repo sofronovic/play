@@ -1,0 +1,270 @@
+#{extends 'standardForm.html' /}
+#{set title:'Izlazne fakture' /}
+
+<script>
+$(document).ready(function(){
+	$("#porezPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		$('#porezModal').modal('toggle');
+	});
+});
+
+function sync(item){
+	brojFakture = item.find(".brojFakture").html()
+	datumFakture = item.find(".datumFakture").html()
+	uplataNaRacun = item.find(".uplataNaRacun").html()
+	pozivNaBroj = item.find(".pozivNaBroj").html()
+	datumValute = item.find(".datumValute").html()
+	datumObracuna = item.find(".datumObracuna").html()
+	ukupnoRobe = item.find(".ukupnoRobe").html()
+	ukupanRabat = item.find(".ukupanRabat").html()
+	ukupanPorez = item.find(".ukupanPorez").html()
+	iznosFakture = item.find(".iznosFakture").html()
+	iznosFaktureOsnovica = item.find(".iznosFaktureOsnovica").html()
+
+	statusFakture = item.find(".statusFakture").html()
+    id = item.find(".id").html()
+    $("#brojFakture").val(brojFakture);
+	$('#datumFakture').val(datumFakture);
+	$('#uplataNaRacun').val(uplataNaRacun);
+	$('#pozivNaBroj').val(pozivNaBroj);
+	$("#datumValute").val(datumValute);
+	$('#datumObracuna').val(datumObracuna);
+	
+	$('#ukupnoRobe').val(ukupnoRobe);
+	$("#ukupanRabat").val(ukupanRabat);
+	$('#ukupanPorez').val(ukupanPorez);
+	
+	$('#iznosFakture').val(iznosFakture);
+	$('#iznosFaktureOsnovica').val(iznosFaktureOsnovica);
+	$('#statusFakture').val(statusFakture);
+	
+    $("#id").val(id);
+}
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{IzlazneFakture.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id = "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{IzlazneFakture.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{IzlazneFakture.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+  <li><a href="@{IzlazneFakture.show("export")}" id ="export"><img />Export to xml</a></li>
+  
+</ul>
+</p>
+
+<div class = "container-fluid">
+<h1>Izlazne fakture</h1>
+
+<table>
+	<tr class = "header">
+	   <th>Broj fakture</th> 
+	   <th>Datum fakture</th>
+	   <th>Datum valute</th> 
+	   <th>Datum obracuna</th>
+	   <th>Ukupno robe</th>
+	   <th>Ukupan rabat</th> 
+	   <th>Ukupan porez</th>
+	   <th>Iznos fakture</th>
+	   <th>Iznos fakture osnovica</th>
+	   <th>Uplata na racun</th>
+	   <th>Poziv na broj</th> 
+	   <th>Status fakture</th>
+	   <th>Poslovni partner</th>    
+	   <th>Poslovna godina</th>
+	   <th>Otpremnica</th> 
+	</tr>
+#{list items:izlazneFakture, as:'i'}
+	<tr>
+		<td class = "brojFakture">${i.brojFakture}</td>
+		<td class = "datumFakture">${i.datumFakture}</td>
+		<td class = "datumValute">${i.datumValute}</td>
+		<td class = "datumObracuna">${i.datumObracuna}</td>
+		
+		<td class = "ukupnoRobe">${i.ukupnoRobe}</td>
+		<td class = "ukupanRabat">${i.ukupanRabat}</td>
+		<td class = "ukupanPorez">${i.ukupanPorez}</td>
+		<td class = "iznosFakture">${i.iznosFakture}</td>
+		<td class = "iznosFaktureOsnovica">${i.iznosFaktureOsnovica}</td>
+		
+		<td class = "uplataNaRacun">${i.uplataNaRacun}</td>
+		<td class = "pozivNaBroj">${i.pozivNaBroj}</td>
+		
+		<td class = "statusFakture">${i.statusFakture}</td>
+		<td class = "poslovniPartner">${i.poslovniPartner.nazivPartnera}</td>
+		<td class = "poslovnaGodina">${i.poslovnaGodina.godina}</td>
+		<td class = "otpremnica">${i.otpremnica.brojOtpremnice}</td>
+		
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+    #{if mode == 'add'}
+        @{IzlazneFakture.add()}
+    #{/if}
+    #{elseif mode == 'edit'}
+        @{IzlazneFakture.edit()}
+    #{/elseif}
+    #{elseif mode == 'remove'}
+        @{IzlazneFakture.delete()}
+    #{/elseif}
+    #{elseif mode == 'export'}
+        @{IzlazneFakture.export()}
+    #{/elseif}
+    #{else}
+       @{IzlazneFakture.filter()}
+    #{/else}
+  #{/set}
+
+<div class = "panel">
+	<p>
+	
+		<form action = "${action}">
+			
+			#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			
+			<p>
+			#{field 'brojFakture'}
+					<label for = "${field.id}">Broj fakture</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'datumFakture'}
+					<label for = "${field.id}">Datum fakture</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'datumValute'}
+					<label for = "${field.id}">Datum valute</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			
+			#{field 'datumObracuna'}
+					<label for = "${field.id}">Datum obracuna</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'ukupnoRobe'}
+					<label for = "${field.id}">Ukupno robe</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'ukupanRabat'}
+					<label for = "${field.id}">Ukupan rabat</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'ukupanPorez'}
+					<label for = "${field.id}">Ukupan porez</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'iznosFakture'}
+					<label for = "${field.id}">Iznos fakture</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'iznosFaktureOsnovica'}
+					<label for = "${field.id}">Iznos fakture osnovica</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'uplataNaRacun'}
+					<label for = "${field.id}">Uplata na racun</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'pozivNaBroj'}
+					<label for = "${field.id}">Poziv na broj</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'statusFakture'}
+					<label for = "${field.id}">Status fakture</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'poslovniPartner'}
+				<label for = "${field.id}">PoslovniPartner</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:poslovniPartneri, as:'i'}
+				<option value = "${i.id}">${i.nazivPartnera}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+
+			<p>
+			#{field 'poslovnaGodina'}
+				<label for = "${field.id}">Poslovna godina</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:poslovneGodine, as:'i'}
+				<option value = "${i.id}">${i.godina}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			
+			<p>
+			#{field 'otpremnica'}
+				<label for = "${field.id}">Otpremnica</label>
+				<select name = "${field.name}" id = "${field.id}"/>
+			#{list items:otpremnice, as:'i'}
+				<option value = "${i.id}">${i.brojOtpremnice}</option>
+			#{/list}
+				</select>
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+			#{/}
+			</p>
+			
+			<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{IzlazneFakture.show("")}" style="margin-left:1em">Rollback</a>
+				</div>	
+		</form>
+			</p>
+</div>

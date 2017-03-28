@@ -3,10 +3,10 @@
 
 <script>
 $(document).ready(function(){
-	$("#porezPickup").click(function(){
+	$("#preduzecePickup").click(function(){
 		id = $(".highlighted").find(".id").html();
 		$("select").val(id);
-		$('#porezModal').modal('toggle');
+		$('#preduzeceModal').modal('toggle');
 	});
 });
 
@@ -22,7 +22,7 @@ function sync(item){
 <p>
 <ul>
   <li><a href="@{Grupe.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
-  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="http://localhost:9000/grupe/show" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
   <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
   <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
   <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
@@ -93,7 +93,7 @@ function sync(item){
 			#{/list}
 				</select>
 					
-				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#preduzeceModal">...	</button>
 			#{/}
 			</p>
 			
@@ -106,7 +106,7 @@ function sync(item){
 			#{/list}
 				</select>
 					
-				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="preduzeceModal">...	</button>
 			#{/}
 			</p>
 			
@@ -115,5 +115,42 @@ function sync(item){
 					<a href = "@{Grupe.show("")}" style="margin-left:1em">Rollback</a>
 				</div>	
 		</form>
-			</p>
+			</p> 
+			
+			<!-- Modal -->
+  <div class="modal fade" id="preduzecePickup" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+      <div class="modal-header">
+      	Preduzeca
+      </div>
+      <div class="modal-body">
+	    <table style = "padding:2em">
+		<tr class = "header">
+		   <th>PIB</th> 
+		   <th>Naziv</th>
+		   <th>Adresa</th>
+		   <th>Maticni broj</th>
+		   <th>email</th>
+		</tr>
+		#{list items:preduzeca, as:'x'}
+		<tr>
+			<td class = "oznaka">${x.PIB}</td>
+			<td class = "naziv">${x.naziv}</td>
+			<td class = "naziv">${x.adresa}</td>
+			<td class = "naziv">${x.maticniBroj}</td>
+			<td class = "naziv">${x.email}</td>
+			<td style = "visibility: hidden; max-width: 0px" class = "id">${x.id}</td>
+		</tr>
+		#{/list}
+		</table>
+		<div class="modal-footer">
+			<input id = "preduzeceModal" type = "button" value = "izbor"/>
+		</div>
+		</div>
+      </div>
+    </div>
+   </div>
 </div>
+
