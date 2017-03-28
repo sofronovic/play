@@ -9,14 +9,12 @@ $(document).ready(function(){
 		$('#porezModal').modal('toggle');
 	});
 });
-
 function sync(item){
 	datumPrimene = item.find(".datumPrimene").html()
     id = item.find(".id").html()
     $("#datumPrimene").val(datumPrimene);
     $("#id").val(id);
 }
-
 </script>
 
 <p>
@@ -59,6 +57,9 @@ function sync(item){
     #{elseif mode == 'edit'}
         @{Cenovnici.edit()}
     #{/elseif}
+    #{elseif mode == 'copy'}
+		 @{Cenovnici.copy()}
+ 	#{/elseif}
     #{elseif mode == 'remove'}
         @{Cenovnici.delete()}
     #{/elseif}
@@ -94,6 +95,13 @@ function sync(item){
 				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
 			#{/}
 			</p>
+			<p>
+				#{field 'procenat'}
+					<label id="procenatL" for = "${field.id}">procenat</label>
+					<input type = "number" name = "${field.name}" id = "procenat"/>
+				#{/}
+				
+				</p>
 			
 			
 			<div id = "formActions">
