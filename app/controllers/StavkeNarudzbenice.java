@@ -22,7 +22,7 @@ public class StavkeNarudzbenice extends Controller {
 		render(stavkeNarudzbenice, robaUsluga, narudzbenice, mode);
 	}
 	
-	public static void add(@Required float kolicina, @Required float cenaPoJediniciMere, @Required float ukupnaCena, long robaUsluga, long narudzebnica){
+	public static void add(@Required float kolicina, @Required float cenaPoJediniciMere, long robaUsluga, long narudzbenica){
 		
 		if(validation.hasErrors()){
 			for(Error error : validation.errors()){
@@ -36,8 +36,12 @@ public class StavkeNarudzbenice extends Controller {
 			stavka.cenaPoJediniciMere = cenaPoJediniciMere;
 			stavka.ukupnaCena = kolicina*cenaPoJediniciMere;
 			stavka.robaUsluga = RobaUsluga.findById(robaUsluga);
-			stavka.narudzbenica = Narudzbenica.findById(narudzebnica);
+			stavka.narudzbenica = Narudzbenica.findById(narudzbenica);
+			
+			Narudzbenica n = Narudzbenica.findById(narudzbenica);
+			n.kolicina+=stavka.kolicina;
 			stavka.save();
+			n.save();
 			validation.keep();
 			show("add");
 		}
@@ -53,13 +57,16 @@ public class StavkeNarudzbenice extends Controller {
 		
 	}
 	
-	public static void edit(float kolicina, float cenaPoJediniciMere, float ukupnaCena, long robaUsluga, long narudzebnica, long id){
+	public static void edit(float kolicina, float cenaPoJediniciMere, float ukupnaCena, long robaUsluga, long narudzbenica, long id){
 		StavkaNarudzbenice stavke = StavkaNarudzbenice.findById(id);
 		stavke.kolicina = kolicina;
 		stavke.cenaPoJediniciMere = cenaPoJediniciMere;
 		stavke.ukupnaCena = ukupnaCena;
 		stavke.robaUsluga = RobaUsluga.findById(robaUsluga);
-		stavke.narudzbenica = Narudzbenica.findById(narudzebnica);
+		stavke.narudzbenica = Narudzbenica.findById(narudzbenica);
+		Narudzbenica n = Narudzbenica.findById(narudzbenica);
+		n.kolicina+=stavke.kolicina;
+		n.save();
 		stavke.save();
 		show("");
 	}

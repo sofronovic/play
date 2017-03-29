@@ -1,34 +1,26 @@
 #{extends 'standardForm.html' /}
-#{set title:'StavkeNarudzbenice' /}
+#{set title:'Stavke narudzbenice' /}
 
 <script>
-
-	$(document).ready(function(){
-		$("#robaUslugaPickup").click(function(){
-			id = $(".highlighted").find(".id").html();
-			$("select").val(id);
-			$('#robaUslugaModal').modal('toggle');
-		});
+$(document).ready(function(){
+	$("#porezPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		$('#porezModal').modal('toggle');
 	});
-	
-	$(document).ready(function(){
-		$("#narudzbenicaPickup").click(function(){
-			id = $(".highlighted").find(".id").html();
-			$("select").val(id);
-			$('#narudzbenicaModal').modal('toggle');
-		});
-	});
+});
 
-	function sync(item){
-		kolicina = item.find(".stavka_kolicina").html()
-		cenaPoJediniciMere = item.find(".stavka_cenaPoJediniciMere").html()
-		ukupnaCena = item.find(".stavka_ukupnaCena").html()
-		id = item.find(".stavka_id").html()
-		$("#kolicina").val(kolicina);
-		$("#cenaPoJediniciMere").val(cenaPoJediniciMere);
-		$("#ukupnaCena").val(ukupnaCena);
-		$("#id").val(id);
-	}
+function sync(item){
+	kolicina = item.find(".kolicina").html()
+	cenaPoJediniciMere = item.find(".cenaPoJediniciMere").html()
+	ukupnaCena = item.find(".ukupnaCena").html()
+    id = item.find(".id").html()
+    $("#kolicina").val(kolicina);
+    $("#cenaPoJediniciMere").val(cenaPoJediniciMere);
+    $("#ukupnaCena").val(ukupnaCena);
+    $("#id").val(id);
+}
+
 </script>
 
 <p>
@@ -42,159 +34,110 @@
   <li><a  id = "next"><img src="@{'/public/images/next.gif'}"/></a></li>
   <li><a  id = "last"><img src="@{'/public/images/last.gif'}"/></a></li>
   <li><a href="@{StavkeNarudzbenice.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
-  <li><a href="@{StavkeNarudzbenice.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="@{StavkeNarudzbenice.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
   <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
 </ul>
-<p>
+</p>
 
 <div class = "container-fluid">
 <h1>Stavke narudzbenice</h1>
 
 <table>
 	<tr class = "header">
-		<th>Kolicina</th>
-		<th>Cena po jedinici mere</th>
-		<th>Ukupna cena</th>
-		<th>Roba/Usluga</th>
-		<th>Narudzbenica</th>
+	   <th>kolicina</th> 
+	   <th>Cena po jedinici mere</th>
+	   <th>Ukupna cena</th>
+	   <th>Roba/Usluga</th>
+	   <th>Narudzbenica</th>
 	</tr>
-#{list items:stavkeNarudzbenice, as:'stavka'}
+#{list items:stavkeNarudzbenice, as:'i'}
 	<tr>
-		<td class = "stavka_kolicina">${stavka.kolicina}</td>
-		<td class = "stavka_cenaPoJediniciMere">${stavka.cenaPoJediniciMere}</td>
-		<td class = "stavka_ukupnaCena">${stavka.ukupnaCena}</td>
-		<td class = "narudzbenica">${stavka.narudzbenica.brojNarudzbenice</td>
-		<td style = "visibility: hidden; max-width: 0px" class = "nm_id">${stavka.id}</td>
+		<td class = "kolicina">${i.kolicina}</td>
+		<td class = "cenaPoJediniciMere">${i.cenaPoJediniciMere}</td>
+		<td class = "ukupnaCena">${i.ukupnaCena}</td>
+		<td class = "robaUsluga">${i.robaUsluga.naziv}</td>
+		<td class = "narudzbenica">${i.narudzbenica.brojNarudzbenice}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
+	</tr>
 #{/list}
 </table>
 
 #{set 'action'}
-	#{if mode == 'add'}
-		@{StavkeNarudzbenice.add()}
-	#{/if}
-	
-	#{elseif mode == 'edit'}
-		@{StavkeNarudzbenice.edit()}
-	#{/elseif}
-	
-	#{elseif mode == 'remove'}
-		@{StavkeNarudzbenice.delete()}
-	#{/elseif}
-	
-	#{else}
-		@{StavkeNarudzbenice.filter()}
-	#{/else}
-#{/set}
+    #{if mode == 'add'}
+        @{StavkeNarudzbenice.add()}
+    #{/if}
+    #{elseif mode == 'edit'}
+        @{StavkeNarudzbenice.edit()}
+    #{/elseif}
+    #{elseif mode == 'remove'}
+        @{StavkeNarudzbenice.delete()}
+    #{/elseif}
+    #{else}
+       @{StavkeNarudzbenice.filter()}
+    #{/else}
+  #{/set}
 
 <div class = "panel">
 	<p>
-		<form action = "${action}" method = "post">
+	
+		<form action = "${action}">
 			
 			#{field 'id'}
-				<input type = "hidden" name = "${field.name}" id = "${field.id}" />
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
 			#{/}
 			
 			<p>
 			#{field 'kolicina'}
-				<label for = "${field.id}">Kolicina</label>
-				<input type = "number" name = "${field.name}" id = "${field.name}"/>
+					<label for = "${field.id}">Kolicina</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
 			#{/}
 			</p>
+			
 			<p>
 			#{field 'cenaPoJediniciMere'}
-				<label for = "${field.id}">Cena po jedinici mere</label>
-				<input type = "number" name = "${field.name}" id = "${field.name}"/>
+					<label for = "${field.id}">Cena po jedinici mere</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
 			#{/}
 			</p>
+			
 			<p>
 			#{field 'ukupnaCena'}
-				<label for = "${field.id}">Ukupna cena</label>
-				<input type = "number" name = "${field.name}" id = "${field.name}"/>
+					<label for = "${field.id}">Ukupna cena</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
 			#{/}
 			</p>
+			
 			<p>
 			#{field 'robaUsluga'}
-				<label for = "${field.id}">Roba/Usluga</label>
+				<label for = "${field.id}">Roba usluga</label>
 				<select name = "${field.name}" id = "${field.id}"/>
-			#{list items:robaUsluga, as:'robaUsluga'}
-				<option value = "${robaUsluga.id}">${robaUsluga.naziv}</option>
-			
-				
+			#{list items:robaUsluga, as:'i'}
+				<option value = "${i.id}">${i.naziv}</option>
 			#{/list}
 				</select>
-				<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#robaUslugaModal">...	</button>	
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
 			#{/}
 			</p>
+			
 			<p>
 			#{field 'narudzbenica'}
 				<label for = "${field.id}">Narudzbenica</label>
 				<select name = "${field.name}" id = "${field.id}"/>
-				#{list items:narudzbenice, as:'n'}
-				<option value = "${n.id}">${n.brojNarudzbenice}</option>
-				#{/list}
+			#{list items:narudzbenice, as:'i'}
+				<option value = "${i.id}">${i.brojNarudzbenice}</option>
+			#{/list}
 				</select>
-				<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#narudzbenicaModal">...	</button>	
+					
+				 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#porezModal">...	</button>
 			#{/}
 			</p>
+			
+			
 			<div id = "formActions">
 					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
 					<a href = "@{StavkeNarudzbenice.show("")}" style="margin-left:1em">Rollback</a>
-			</div>	
-			
+				</div>	
 		</form>
-		</p>
-</div>
-	  <div class="modal fade" id="robaUslugaModal" role="dialog">
-	    <div class="modal-dialog">
-	      <!-- Modal content-->
-	      <div class="modal-content">
-	      <div class="modal-header">
-	      	Države
-	      </div>
-	      <div class="modal-body">
-		    <table style = "padding:2em">
-			<tr class = "header">
-			   <th>Naziv</th>
-			</tr>
-			#{list items:robaUsluga, as:'robaUsluga'}
-			<tr>
-				<td class = "naziv">${robaUsluga.naziv}</td>
-				<td style = "visibility: hidden; max-width: 0px" class = "id">${robaUsluga.id}</td>
-			</tr>
-			#{/list}
-			</table>
-			<div class="modal-footer">
-				<input id = "robaUslugaPickup" type = "button" value = "izbor"/>
-			</div>
-			</div>
-	      </div>
-	    </div>
-	   </div>
-	   
-	   <div class="modal fade" id="narudzbenicaModal" role="dialog">
-	    <div class="modal-dialog">
-	      <!-- Modal content-->
-	      <div class="modal-content">
-	      <div class="modal-header">
-	      	Države
-	      </div>
-	      <div class="modal-body">
-		    <table style = "padding:2em">
-			<tr class = "header">
-			   <th>Naziv</th>
-			</tr>
-			#{list items:narudzbenice, as:'n'}
-			<tr>
-				<td class = "naziv">${n.brojNarudzbenice}</td>
-				<td style = "visibility: hidden; max-width: 0px" class = "id">${n.id}</td>
-			</tr>
-			#{/list}
-			</table>
-			<div class="modal-footer">
-				<input id = "narudzbenicaPickup" type = "button" value = "izbor"/>
-			</div>
-			</div>
-	      </div>
-	    </div>
-	   </div>
+			</p>
 </div>

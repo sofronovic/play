@@ -15,7 +15,7 @@ public class Narudzbenica extends Model {
 	@Column(nullable = false, unique = true)
 	public int brojNarudzbenice;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public float kolicina;
 	
 	@ManyToOne

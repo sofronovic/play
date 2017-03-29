@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -47,7 +48,7 @@ public class IzlaznaFaktura extends Model {
 	@Column(nullable = true, length = 20)
 	public String pozivNaBroj;
 	
-	@OneToMany(mappedBy="izlaznaFaktura")
+	@OneToMany(mappedBy="izlaznaFaktura", cascade = {CascadeType.ALL})
 	public List<StavkeFakture> stavkeFakture;
 	
 	@OneToMany(mappedBy="izlaznaFaktura")

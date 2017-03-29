@@ -1,13 +1,17 @@
 package controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import models.IstorijaPoreza;
+import models.IzlaznaFaktura;
 import models.Narudzbenica;
 import models.PoreskaStopa;
 import models.Porez;
 import models.PoslovnaGodina;
 import models.PoslovniPartner;
+import models.StavkaNarudzbenice;
+import models.StavkeFakture;
 import play.data.validation.Error;
 import play.data.validation.Required;
 import play.mvc.Controller;
@@ -63,8 +67,77 @@ public class Narudzbenice extends Controller {
 	
 	public static void delete(long id){
 		Narudzbenica n = Narudzbenica.findById(id);
+		for(StavkaNarudzbenice i : n.stavkeNarudzbenice){
+			i.delete();
+		}
 		n.delete();
 		show("");
+	}
+	
+	public static void generator(long id){
+		Narudzbenica narudzbenica = Narudzbenica.findById(id);
+		IzlaznaFaktura faktura = new IzlaznaFaktura();
+		
+		int broj = 7;
+		int pdv = 20;
+		faktura.brojFakture = ++broj;
+		faktura.datumFakture = new Date();
+		faktura.datumValute = new Date();
+		faktura.datumObracuna = new Date();
+		faktura.statusFakture = "U pripremi";
+		faktura.poslovniPartner = narudzbenica.poslovniPartner;
+		faktura.poslovnaGodina = narudzbenica.poslovnaGodina;
+		
+		float ukupanPorez = 0;
+		float UkupnoRobe = 0;
+		float ukupanRabat = 0;
+		float iznosFakture = 0;
+		float iznosFaktureOsnovica = 0;
+		
+		faktura.save();
+		
+		for(StavkaNarudzbenice stavkaNarudzbenice : narudzbenica.stavkeNarudzbenice){
+			
+			StavkeFakture stavkaFakture = new StavkeFakture();
+
+			stavkaFakture.kolicina = stavkaNarudzbenice.kolicina;
+			stavkaFakture.cenaPoJediniciMere = stavkaNarudzbenice.cenaPoJediniciMere;
+			stavkaFakture.ukupanIznos = stavkaNarudzbenice.ukupnaCena;
+			stavkaFakture.robaUsluga = stavkaNarudzbenice.robaUsluga;
+			stavkaFakture.osnovica = stavkaFakture.kolicina*stavkaFakture.cenaPoJediniciMere;
+			stavkaFakture.pdv = pdv/100;
+			stavkaFakture.pdvIznos = stavkaFakture.osnovica * pdv/100;
+			stavkaFakture.ukupanIznos = stavkaFakture.pdvIznos * stavkaFakture.osnovica;
+			stavkaFakture.izlaznaFaktura = faktura;
+			
+			ukupanPorez += stavkaFakture.pdvIznos;
+			UkupnoRobe += stavkaFakture.kolicina;
+			ukupanRabat = 0;
+			iznosFakture += stavkaFakture.ukupanIznos;
+			iznosFaktureOsnovica += stavkaFakture.osnovica;
+			
+			stavkaFakture.save();
+			
+		}
+		
+		Long idf;
+		
+		idf = faktura.getId();
+		
+		if( faktura.id == idf){
+			
+			faktura.ukupanPorez = ukupanPorez;
+			faktura.ukupnoRobe = UkupnoRobe;
+			faktura.ukupanRabat = ukupanRabat;
+			faktura.iznosFakture = iznosFakture;
+			faktura.iznosFaktureOsnovica = iznosFaktureOsnovica;	
+			faktura.save();
+		}
+		
+		show("");
+		
+
+		
 	}
 
 }

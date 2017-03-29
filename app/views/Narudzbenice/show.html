@@ -34,6 +34,7 @@ function sync(item){
   <li><a href="@{Narudzbenice.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
   <li><a href="@{Narudzbenice.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
   <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+<li><a href="@{Narudzbenice.show("generator")}" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/>Generisanje fakture</a></li>
 </ul>
 </p>
 
@@ -67,6 +68,9 @@ function sync(item){
     #{/elseif}
     #{elseif mode == 'remove'}
         @{Narudzbenice.delete()}
+    #{/elseif}
+    #{elseif mode == 'generator'}
+        @{Narudzbenice.generator()}
     #{/elseif}
     #{else}
        @{Narudzbenice.filter()}
