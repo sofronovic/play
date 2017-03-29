@@ -63,7 +63,7 @@
 		<td class = "stavka_kolicina">${stavka.kolicina}</td>
 		<td class = "stavka_cenaPoJediniciMere">${stavka.cenaPoJediniciMere}</td>
 		<td class = "stavka_ukupnaCena">${stavka.ukupnaCena}</td>
-		
+		<td class = "narudzbenica">${stavka.narudzbenica.brojNarudzbenice</td>
 		<td style = "visibility: hidden; max-width: 0px" class = "nm_id">${stavka.id}</td>
 #{/list}
 </table>
@@ -117,7 +117,7 @@
 				<label for = "${field.id}">Roba/Usluga</label>
 				<select name = "${field.name}" id = "${field.id}"/>
 			#{list items:robaUsluga, as:'robaUsluga'}
-				<option value = "${robaUlusga.id}">${robaUsluga.naziv}</option>
+				<option value = "${robaUsluga.id}">${robaUsluga.naziv}</option>
 			
 				
 			#{/list}
@@ -130,7 +130,7 @@
 				<label for = "${field.id}">Narudzbenica</label>
 				<select name = "${field.name}" id = "${field.id}"/>
 				#{list items:narudzbenice, as:'n'}
-				<option value = "${robaUlusga.id}">${n.naziv}</option>
+				<option value = "${n.id}">${n.brojNarudzbenice}</option>
 				#{/list}
 				</select>
 				<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#narudzbenicaModal">...	</button>	

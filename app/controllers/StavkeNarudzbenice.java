@@ -34,7 +34,7 @@ public class StavkeNarudzbenice extends Controller {
 			StavkaNarudzbenice stavka = new StavkaNarudzbenice();
 			stavka.kolicina = kolicina;
 			stavka.cenaPoJediniciMere = cenaPoJediniciMere;
-			stavka.ukupnaCena = ukupnaCena;
+			stavka.ukupnaCena = kolicina*cenaPoJediniciMere;
 			stavka.robaUsluga = RobaUsluga.findById(robaUsluga);
 			stavka.narudzbenica = Narudzbenica.findById(narudzebnica);
 			stavka.save();

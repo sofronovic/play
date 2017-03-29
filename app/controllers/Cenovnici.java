@@ -39,7 +39,7 @@ public class Cenovnici extends Controller{
 			show("add");
 		}else {
 			Cenovnik c = new Cenovnik();
-			c.datumPrimene = datumPrimene;
+			c.datumPrimene = new Date();
 			c.preduzece = Preduzece.findById(preduzece);
 			c.save();
 			validation.keep();
@@ -79,12 +79,20 @@ public class Cenovnici extends Controller{
 		for(StavkeCenovnika s: c.stavkeCenovnika){
 			StavkeCenovnika s2 = new StavkeCenovnika();
 			s2.robaUsluga = s.robaUsluga;
+		
+		String povecanje_ch = params.get("povecanje");
+		String smanjenje_ch = params.get("smanjenje");
 			
-		if(procenat>0){
+		if(povecanje_ch!=null && smanjenje_ch == null){
 			s2.jedinicnaCena=s.jedinicnaCena+(s.jedinicnaCena*procenat/100);
-		}else{
-			procenat=-procenat;
+		}
+		if(smanjenje_ch != null && povecanje_ch == null){
+		
+			System.out.println(procenat);
+			
 			s2.jedinicnaCena=s.jedinicnaCena-(s.jedinicnaCena*procenat/100);
+			System.out.println(s2.jedinicnaCena + "=" + s.jedinicnaCena + "-" + "(" + s.jedinicnaCena + "*" + procenat + "/" + 100);
+			System.out.println(s2.jedinicnaCena);
 		}
 		s2.cenovnik=c2;
 		s2.save();

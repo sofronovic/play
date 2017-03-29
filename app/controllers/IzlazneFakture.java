@@ -47,9 +47,9 @@ public class IzlazneFakture extends Controller {
 		}else{
 			IzlaznaFaktura i = new IzlaznaFaktura();
 			i.brojFakture = brojFakture;
-			i.datumFakture = datumFakture;
-			i.datumValute = datumValute;
-			i.datumObracuna = datumObracuna;
+			i.datumFakture = new Date();
+			i.datumValute = new Date();
+			i.datumObracuna = new Date();
 			i.ukupnoRobe = ukupnoRobe;
 			i.ukupanRabat = ukupanRabat;
 			i.ukupanPorez = ukupanPorez;
@@ -57,7 +57,7 @@ public class IzlazneFakture extends Controller {
 			i.iznosFakture = iznosFaktureOsnovica;
 			i.uplataNaRacun = uplataNaRacun;
 			i.pozivNaBroj = pozivNaBroj;
-			i.statusFakture = statusFakture;
+			i.statusFakture = statusFakture; //TODO
 			i.poslovniPartner = PoslovniPartner.findById(poslovniPartner);
 			i.poslovnaGodina = PoslovnaGodina.findById(poslovnaGodina);
 			i.otpremnica = Otpremnica.findById(otpremnica);

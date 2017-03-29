@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import models.IzlaznaFaktura;
@@ -53,6 +54,7 @@ public class StavkeFaktura extends Controller {
 			faktura.ukupanRabat = 0;
 			faktura.iznosFakture+=stavkeFakture.ukupanIznos;
 			faktura.iznosFaktureOsnovica+=stavkeFakture.osnovica;
+
 			
 			faktura.save();
 			stavkeFakture.save();

@@ -30,6 +30,8 @@ function sync(item){
   <li><a href="@{Cenovnici.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
   <li><a href="@{Cenovnici.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
   <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+  <li><a href="@{Cenovnici.show("copy")}" id = "copy"><img/>Kopiraj cenovnik</a></li>
+  
 </ul>
 </p>
 
@@ -97,8 +99,10 @@ function sync(item){
 			</p>
 			<p>
 				#{field 'procenat'}
-					<label id="procenatL" for = "${field.id}">procenat</label>
+					<label id="procenatL" for = "${field.id}">Procenat</label>
 					<input type = "number" name = "${field.name}" id = "procenat"/>
+					<p><input type="checkbox" name="povecanje" id="povecanje"> Povecanje</input></p>
+					<p><input type="checkbox" name="smanjenje" id="smanjenje"> Smanjenje</input></p>
 				#{/}
 				
 				</p>
