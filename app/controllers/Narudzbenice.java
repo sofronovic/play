@@ -77,8 +77,8 @@ public class Narudzbenice extends Controller {
 	public static void generator(long id){
 		Narudzbenica narudzbenica = Narudzbenica.findById(id);
 		IzlaznaFaktura faktura = new IzlaznaFaktura();
-		
-		int broj = 7;
+			
+		int broj = 9;
 		int pdv = 20;
 		faktura.brojFakture = ++broj;
 		faktura.datumFakture = new Date();
@@ -130,7 +130,8 @@ public class Narudzbenice extends Controller {
 			faktura.ukupnoRobe = UkupnoRobe;
 			faktura.ukupanRabat = ukupanRabat;
 			faktura.iznosFakture = iznosFakture;
-			faktura.iznosFaktureOsnovica = iznosFaktureOsnovica;	
+			faktura.iznosFaktureOsnovica = iznosFaktureOsnovica;
+			
 			faktura.save();
 		}
 		

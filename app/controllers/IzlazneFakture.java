@@ -59,7 +59,7 @@ public class IzlazneFakture extends Controller {
 			i.pozivNaBroj = pozivNaBroj;
 			i.statusFakture = statusFakture; //TODO
 			i.poslovniPartner = PoslovniPartner.findById(poslovniPartner);
-			i.poslovnaGodina = PoslovnaGodina.findById(poslovnaGodina);
+			i.poslovnaGodina = PoslovnaGodina.findById(poslovnaGodina);	
 			i.otpremnica = Otpremnica.findById(otpremnica);
 			i.save();
 			validation.keep();

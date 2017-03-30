@@ -48,7 +48,7 @@ public class IzlaznaFaktura extends Model {
 	@Column(nullable = true, length = 20)
 	public String pozivNaBroj;
 	
-	@OneToMany(mappedBy="izlaznaFaktura", cascade = {CascadeType.ALL})
+	@OneToMany(mappedBy="izlaznaFaktura")
 	public List<StavkeFakture> stavkeFakture;
 	
 	@OneToMany(mappedBy="izlaznaFaktura")
