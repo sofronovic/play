@@ -60,13 +60,14 @@ public class StavkeNarudzbenice extends Controller {
 	
 	public static void edit(float kolicina, float cenaPoJediniciMere, float ukupnaCena, long robaUsluga, long narudzbenica, long id){
 		StavkaNarudzbenice stavke = StavkaNarudzbenice.findById(id);
-		stavke.kolicina = kolicina;
 		stavke.cenaPoJediniciMere = cenaPoJediniciMere;
-		stavke.ukupnaCena = ukupnaCena;
 		stavke.robaUsluga = RobaUsluga.findById(robaUsluga);
 		stavke.narudzbenica = Narudzbenica.findById(narudzbenica);
 		Narudzbenica n = Narudzbenica.findById(narudzbenica);
-		n.kolicina+=stavke.kolicina;
+		float novaKolicina = n.kolicina - stavke.kolicina;
+		stavke.kolicina = kolicina;
+		stavke.ukupnaCena = kolicina*cenaPoJediniciMere;
+		n.kolicina = novaKolicina + kolicina;
 		n.save();
 		stavke.save();
 		show("");

@@ -25,7 +25,7 @@ public class StavkeFaktura extends Controller {
 		render(stavkeFakture, izlazneFakture, robaUsluga, mode);
 	}
 	
-	public static void add(@Required @Min(1) float kolicina, float cenaPoJediniciMere, float rabat,
+	public static void add(@Required @Min(1) float kolicina, @Min(0)float cenaPoJediniciMere, @Min(0)float rabat,
 		 float pdv, long izlaznaFaktura, long robaUsluga)
 	{
 		if(validation.hasErrors()) {
@@ -54,7 +54,7 @@ public class StavkeFaktura extends Controller {
 			faktura.ukupanPorez+=stavkeFakture.pdvIznos;
 			faktura.ukupnoRobe+=stavkeFakture.kolicina;
 			faktura.ukupanRabat = 0;
-			faktura.iznosFakture+=stavkeFakture.ukupanIznos;
+			faktura.iznosFakture+=stavkeFakture.ukupanIznos	;
 			faktura.iznosFaktureOsnovica+=stavkeFakture.osnovica;
 
 			
@@ -80,7 +80,7 @@ public class StavkeFaktura extends Controller {
 	public static void edit(float kolicina, float cenaPoJediniciMere, float rabat,
 			float osnovica, long izlaznaFaktura, float pdv, long robaUsluga, long id)
 	{
-		
+		System.out.println("EDIT");
 		StavkeFakture stavkeFakture = StavkeFakture.findById(id);
 		System.out.println(stavkeFakture.id);
 		stavkeFakture.kolicina = kolicina;
