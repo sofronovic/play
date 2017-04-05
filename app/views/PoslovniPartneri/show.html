@@ -60,7 +60,7 @@ function sync(item){
 #{/list}
 </table>
 
-+#{set 'action'}
+#{set 'action'}
     #{if mode == 'add'}
         @{PoslovniPartneri.add()}
     #{/if}
@@ -97,8 +97,13 @@ function sync(item){
 			</p>
 			<p>
 			#{field 'vrstaPartnera'}
-					<label for = "${field.id}">Vrsta partnera</label>
-					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+					<label for = "${field.id}">Vrsta partnera</label><!-- 
+					<input type = "text" name = "${field.name}" id = "${field.id}"/> -->
+					<select name = "${field.name}" id = "${field.id}"/>
+						<option value="Kupac">Kupac</option>
+						<option value="Dobavljac">Dobavljac</option>
+						<option value="Kupac/Dobavljac">Kupac i Dobavljac</option>
+					</select> 
 			#{/}
 			</p>
 			<p>

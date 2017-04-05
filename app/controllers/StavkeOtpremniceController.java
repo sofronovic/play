@@ -6,6 +6,7 @@ import models.Otpremnica;
 import models.RobaUsluga;
 import models.StavkeOtpremnice;
 import play.data.validation.Error;
+import play.data.validation.Min;
 import play.data.validation.Required;
 import play.mvc.Controller;
 
@@ -21,7 +22,7 @@ public class StavkeOtpremniceController extends Controller {
 			render(stavkeOtpremnice, otpremnice, robeUsluge, mode);
 	}
 	
-	public static void add(@Required float kolicina, float cenaPoJediniciMere, float ukupnaCena,
+	public static void add(@Required @Min(1) float kolicina, float cenaPoJediniciMere, float ukupnaCena,
 			long otpremnica, long robaUsluga){
 		if(validation.hasErrors()){
 			for(Error error : validation.errors()){

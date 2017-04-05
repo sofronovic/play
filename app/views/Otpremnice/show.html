@@ -137,7 +137,9 @@ function sync(item){
 				<label for = "${field.id}">Poslovni partner</label>
 				<select name = "${field.name}" id = "${field.id}"/>
 			#{list items:poslovniPartneri, as:'i'}
-				<option value = "${i.id}">${i.nazivPartnera}</option>
+				#{ if i.vrstaPartnera == "Kupac"}
+					<option value = "${i.id}">${i.nazivPartnera}</option>
+				#{/if}
 			#{/list}
 				</select>
 					

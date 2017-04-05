@@ -73,6 +73,7 @@ function sync(item){
 #{/list}
 </table>
 
+
 #{set 'action'}
     #{if mode == 'add'}
         @{StavkeFaktura.add()}
@@ -89,6 +90,11 @@ function sync(item){
   #{/set}
   
 <div class = "panel">
+
+#{ifErrors}
+   <p style="color: red;">Greska!</p>
+#{/ifErrors}
+
 	<p>
 	
 		<form action = "${action}">
@@ -101,6 +107,7 @@ function sync(item){
 			#{field 'kolicina'}
 					<label for = "${field.id}">Kolicina</label>
 					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+					<span class="error">#{error 'kolicina' /}</span>
 			#{/}
 			</p>
 			

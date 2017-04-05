@@ -10,6 +10,7 @@ import models.RobaUsluga;
 import models.StavkaNarudzbenice;
 import models.StavkeFakture;
 import play.data.validation.Error;
+import play.data.validation.Min;
 import play.data.validation.Required;
 import play.mvc.Controller;
 
@@ -24,13 +25,14 @@ public class StavkeFaktura extends Controller {
 		render(stavkeFakture, izlazneFakture, robaUsluga, mode);
 	}
 	
-	public static void add(@Required float kolicina, float cenaPoJediniciMere, float rabat,
+	public static void add(@Required @Min(1) float kolicina, float cenaPoJediniciMere, float rabat,
 		 float pdv, long izlaznaFaktura, long robaUsluga)
 	{
 		if(validation.hasErrors()) {
 			for(Error error : validation.errors()) {
 			System.out.println(error.message());
 			}
+			params.flash();
 			validation.keep();
 			show("add");
 		}else {

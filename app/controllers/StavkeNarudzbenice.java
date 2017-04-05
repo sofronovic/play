@@ -6,6 +6,7 @@ import models.Narudzbenica;
 import models.RobaUsluga;
 import models.StavkaNarudzbenice;
 import play.data.validation.Error;
+import play.data.validation.Min;
 import play.data.validation.Required;
 import play.mvc.Controller;
 
@@ -22,7 +23,7 @@ public class StavkeNarudzbenice extends Controller {
 		render(stavkeNarudzbenice, robaUsluga, narudzbenice, mode);
 	}
 	
-	public static void add(@Required float kolicina, @Required float cenaPoJediniciMere, long robaUsluga, long narudzbenica){
+	public static void add(@Required @Min(1) float kolicina, @Required float cenaPoJediniciMere, long robaUsluga, long narudzbenica){
 		
 		if(validation.hasErrors()){
 			for(Error error : validation.errors()){
