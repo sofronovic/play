@@ -150,7 +150,9 @@ function sync(item){
 				<label for = "${field.id}">Poslovna godina</label>
 				<select name = "${field.name}" id = "${field.id}"/>
 			#{list items:poslovneGodine, as:'i'}
+				#{if i.zakljucena != true}
 				<option value = "${i.id}">${i.godina}</option>
+			#{/}
 			#{/list}
 				</select>
 					

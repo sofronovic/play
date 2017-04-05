@@ -102,7 +102,9 @@ function sync(item){
 		
 		<td class = "statusFakture">${i.statusFakture}</td>
 		<td class = "poslovniPartner">${i.poslovniPartner.nazivPartnera}</td>
+		
 		<td class = "poslovnaGodina">${i.poslovnaGodina.godina}</td>
+		
 		#{if i.otpremnica != null}
 		<td class = "otpremnica">${i.otpremnica.brojOtpremnice}</td>
 	    #{/if}
@@ -241,7 +243,9 @@ function sync(item){
 				<label for = "${field.id}">Poslovna godina</label>
 				<select name = "${field.name}" id = "${field.id}"/>
 			#{list items:poslovneGodine, as:'i'}
+				#{if i.zakljucena != true}
 				<option value = "${i.id}">${i.godina}</option>
+				#{/if}
 			#{/list}
 				</select>
 					

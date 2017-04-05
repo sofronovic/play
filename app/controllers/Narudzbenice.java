@@ -37,7 +37,10 @@ public class Narudzbenice extends Controller {
 			show("add");
 		}else {
 			Narudzbenica n = new Narudzbenica();
-			n.brojNarudzbenice = brojNarudzbenice;
+			List<Narudzbenica> narudzbenice = Narudzbenica.findAll();
+			int noviBroj = 1;
+			noviBroj += narudzbenice.size();
+			n.brojNarudzbenice = noviBroj;
 			n.kolicina = kolicina;
 			n.poslovnaGodina = PoslovnaGodina.findById(poslovnaGodina);
 			n.poslovniPartner = PoslovniPartner.findById(poslovniPartner);
@@ -77,10 +80,13 @@ public class Narudzbenice extends Controller {
 	public static void generator(long id){
 		Narudzbenica narudzbenica = Narudzbenica.findById(id);
 		IzlaznaFaktura faktura = new IzlaznaFaktura();
-			
-		int broj = 9;
+		
+		List<IzlaznaFaktura> izlazneFakture = IzlaznaFaktura.findAll();
+		int noviBroj = 1;
+		noviBroj += izlazneFakture.size();	
+		
 		int pdv = 20;
-		faktura.brojFakture = ++broj;
+		faktura.brojFakture = noviBroj;
 		faktura.datumFakture = new Date();
 		faktura.datumValute = new Date();
 		faktura.datumObracuna = new Date();

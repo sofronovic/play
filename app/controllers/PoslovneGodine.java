@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Calendar;
 import java.util.List;
 
 import models.PoslovnaGodina;
@@ -20,7 +21,7 @@ public class PoslovneGodine extends Controller {
 		render(poslovneGodine, preduzeca, mode);
 	}
 	
-	public static void add(@Required int godina, boolean zakljucena, long preduzece){
+	public static void add( int godina, boolean zakljucena, long preduzece){
 		if(validation.hasErrors()){
 			for(Error error : validation.errors()){
 				System.out.println(error.message());
@@ -32,6 +33,7 @@ public class PoslovneGodine extends Controller {
 			p.godina = godina;
 			p.zakljucena = zakljucena;
 			p.preduzece = Preduzece.findById(preduzece);
+			
 			p.save();
 			validation.keep();
 			show("add");

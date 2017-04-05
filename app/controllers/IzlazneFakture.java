@@ -46,7 +46,10 @@ public class IzlazneFakture extends Controller {
 			show("add");
 		}else{
 			IzlaznaFaktura i = new IzlaznaFaktura();
-			i.brojFakture = brojFakture;
+			List<IzlaznaFaktura> izlazneFakture = IzlaznaFaktura.findAll();
+			int noviBroj = 1;
+			noviBroj += izlazneFakture.size();
+			i.brojFakture = noviBroj;
 			i.datumFakture = new Date();
 			i.datumValute = new Date();
 			i.datumObracuna = new Date();

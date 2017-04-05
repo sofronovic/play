@@ -19,6 +19,20 @@ function sync(item){
     $("#id").val(id);
 }
 
+function checkYear(){
+	var href = window.location.search;
+	var param = href.substring(href.indexOf("?")+1);
+	var godinaInput = document.getElementById("godinput").value;
+	if(param == "mode=add" || param == "mode=" || param == "mode=edit"){
+		var trenutna = new Date().getFullYear()
+		if(trenutna != godinaInput){
+			alert("Mora biti trenutna godina!")
+			return false;
+		}
+	}
+	return true;
+}
+
 </script>
 
 <p>
@@ -48,7 +62,7 @@ function sync(item){
 	</tr>
 #{list items:poslovneGodine, as:'i'}
 	<tr>
-		<td class = "godina">${i.godina}</td>
+		<td id="godinput" class = "godina">${i.godina}</td>
 		<td class = "zakljucena">${i.zakljucena}</td>
 		<td class = "preduzece">${i.preduzece.naziv}</td>
 		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
@@ -108,7 +122,7 @@ function sync(item){
 			</p>
 			
 			<div id = "formActions">
-					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<input type = "submit" value = "Potvrda" style="margin-left:6em" onClick="return checkYear();"/>
 					<a href = "@{PoslovneGodine.show("")}" style="margin-left:1em">Rollback</a>
 				</div>	
 		</form>
