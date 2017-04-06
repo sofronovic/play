@@ -9,11 +9,13 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 
 import models.IzlaznaFaktura;
+import models.Narudzbenica;
 import models.Otpremnica;
 import models.PoslovnaGodina;
 import models.PoslovniPartner;
 
 import models.StavkeFakture;
+import models.StavkeOtpremnice;
 import play.data.validation.Error;
 import play.mvc.Controller;
 
@@ -128,4 +130,43 @@ public class IzlazneFakture extends Controller {
 		bw.close();
 		show("");
 	}
+	
+	public static void generate(int brojOtpremnice, long poslovnaGodina, long poslovniPartner, long id, long narudzbenica)
+	{
+	    List<Otpremnica> listaOtpremnica =  Otpremnica.findAll();
+		int n = 1;
+		n += listaOtpremnica.size();
+		
+		IzlaznaFaktura faktura = IzlaznaFaktura.findById(id);
+		Otpremnica o = new Otpremnica();
+			o.datumOtpremnice = faktura.datumFakture;
+			o.brojOtpremnice = n;
+			o.osnovica = faktura.iznosFaktureOsnovica;
+			o.ukupanPdv = faktura.ukupanPorez;
+			o.iznosZaPlacanje = faktura.iznosFakture;
+			o.poslovnaGodina = PoslovnaGodina.findById(poslovnaGodina);
+			o.poslovniPartner = PoslovniPartner.findById(poslovniPartner);
+			o.save();
+		System.out.println(o);
+		
+		for(StavkeFakture stavkeFakture : faktura.stavkeFakture)
+		{
+			StavkeOtpremnice so = new StavkeOtpremnice();
+			so.cenaPoJediniciMere = stavkeFakture.cenaPoJediniciMere;
+			so.kolicina = stavkeFakture.kolicina;
+			so.ukupnaCena = stavkeFakture.ukupanIznos;
+			so.otpremnica = o;
+			so.robaUsluga = stavkeFakture.robaUsluga;
+			so.save();
+			
+			
+		}
+		show("");
+	}
+	
+	
+	
+	
+	
+	
 }

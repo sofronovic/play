@@ -7,6 +7,7 @@ import models.Narudzbenica;
 import models.Otpremnica;
 import models.PoslovnaGodina;
 import models.PoslovniPartner;
+import models.StavkeOtpremnice;
 import play.data.validation.Error;
 import play.data.validation.Required;
 import play.mvc.Controller;
@@ -74,6 +75,10 @@ public class Otpremnice extends Controller {
 	
 	public static void delete(long id){
 		Otpremnica o = Otpremnica.findById(id);
+		for(StavkeOtpremnice i : o.stavkeOtpremnice ){
+			i.delete();
+		}
+		
 		o.delete();
 		show("");
 	}
