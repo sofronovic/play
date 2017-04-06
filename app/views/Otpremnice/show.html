@@ -66,8 +66,9 @@ function sync(item){
 		<td class = "iznosZaPlacanje">${i.iznosZaPlacanje}</td>
 		<td class = "poslovniParnter">${i.poslovniPartner.nazivPartnera}</td>
 		<td class = "poslovnaGodina">${i.poslovnaGodina.godina}</td>
+		#{if i.narudzbenica != null}
 		<td class = "narudzbenica">${i.narudzbenica.brojNarudzbenice}</td>
-		
+		#{/if}
 		<td style = "visibility: hidden; max-width: 0px" class = "id">${i.id}</td>
 	</tr>
 #{/list}

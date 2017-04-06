@@ -59,6 +59,7 @@ function sync(item){
   <li><a href="@{IzlazneFakture.show("remove")}" id ="remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
   <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
   <li><a href="@{IzlazneFakture.show("export")}" id ="export"><img />Export to xml</a></li>
+  <li><a href="@{IzlazneFakture.show("generate")}" id ="generate"><img />Generisanje otpremnice</a></li>
   
 </ul>
 </p>
@@ -125,6 +126,9 @@ function sync(item){
     #{/elseif}
     #{elseif mode == 'export'}
         @{IzlazneFakture.export()}
+    #{/elseif}
+    #{elseif mode == 'generate'}
+        @{IzlazneFakture.generate()}
     #{/elseif}
     #{else}
        @{IzlazneFakture.filter()}
@@ -259,6 +263,7 @@ function sync(item){
 			#{field 'otpremnica'}
 				<label for = "${field.id}">Otpremnica</label>
 				<select name = "${field.name}" id = "${field.id}"/>
+				<option></option>
 			#{list items:otpremnice, as:'i'}
 				<option value = "${i.id}">${i.brojOtpremnice}</option>
 			#{/list}
