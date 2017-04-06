@@ -2,4 +2,4 @@
 # For example, for French create a messages.fr file
 #
 
-validation.min(0) = Mora biti vece od 0
+validation.required = Polje ne sme biti prazno!

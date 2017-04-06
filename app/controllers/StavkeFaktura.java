@@ -56,7 +56,7 @@ public class StavkeFaktura extends Controller {
 			faktura.ukupanRabat = 0;
 			faktura.iznosFakture+=stavkeFakture.ukupanIznos	;
 			faktura.iznosFaktureOsnovica+=stavkeFakture.osnovica;
-
+			
 			
 			faktura.save();
 			stavkeFakture.save();
@@ -78,7 +78,7 @@ public class StavkeFaktura extends Controller {
 	}
 	
 	public static void edit(float kolicina, float cenaPoJediniciMere, float rabat,
-			float osnovica, long izlaznaFaktura, float pdv, long robaUsluga, long id)
+			float osnovica, float pdv, long izlaznaFaktura, long robaUsluga, long id)
 	{
 		System.out.println("EDIT");
 		StavkeFakture stavkeFakture = StavkeFakture.findById(id);

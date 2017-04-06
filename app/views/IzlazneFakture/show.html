@@ -48,7 +48,7 @@ function sync(item){
 <p>
 <ul>
   <li><a href="@{IzlazneFakture.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
-  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="http://localhost:9000/izlaznefakture/show" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
   <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
   <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
   <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
@@ -132,6 +132,10 @@ function sync(item){
   #{/set}
 
 <div class = "panel">
+
+#{ifErrors}
+   <p style="color: red;">Greska!</p>
+#{/ifErrors}
 	<p>
 	
 		<form action = "${action}">
@@ -208,6 +212,8 @@ function sync(item){
 			#{field 'uplataNaRacun'}
 					<label for = "${field.id}">Uplata na racun</label>
 					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+					<span class="error">#{error 'uplataNaRacun' /}</span>
+					
 			#{/}
 			</p>
 			
@@ -215,13 +221,14 @@ function sync(item){
 			#{field 'pozivNaBroj'}
 					<label for = "${field.id}">Poziv na broj</label>
 					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+					<span class="error">#{error 'pozivNaBroj' /}</span>
 			#{/}
 			</p>
 			
 			<p>
 			#{field 'statusFakture'}
 					<label for = "${field.id}">Status fakture</label>
-					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+					<input type = "text" name = "${field.name}" id = "${field.id}" value="U pripremi"/>
 			#{/}
 			</p>
 			

@@ -18,7 +18,8 @@ public class Preduzeca extends Controller {
 	
 	}
 	
-	public static void add(@Required int PIB, String naziv, String adresa, int maticniBroj, int sifraDelatnosti, int telefon,
+	public static void add(@Required  int PIB, @Required String naziv, @Required String adresa, 
+			@Required int maticniBroj, @Required int sifraDelatnosti, @Required int telefon,
 			String email){
 		if(validation.hasErrors()){
 			for(Error error : validation.errors()){
@@ -50,7 +51,8 @@ public class Preduzeca extends Controller {
 		
 	}
 	
-	public static void edit(@Required int PIB, String naziv, String adresa, int maticniBroj, int sifraDelatnosti, int telefon,
+	public static void edit(@Required int PIB, @Required String naziv,@Required String adresa,
+			@Required int maticniBroj, @Required int sifraDelatnosti, @Required int telefon,
 			String email, long id){
 		Preduzece p = Preduzece.findById(id);
 		p.PIB = PIB;

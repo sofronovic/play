@@ -27,7 +27,7 @@
 <p>
 <ul>
   <li><a href="@{Preduzeca.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
-  <li><a href="#" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="http://localhost:9000/preduzeca/show" id = "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
   <li><a href="#" id = "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
   <li><a href="#" id = "help"><img src="@{'/public/images/help.gif'}"/></a></li>
   <li><a  id = "first"><img src="@{'/public/images/first.gif'}"/></a></li>
@@ -88,6 +88,10 @@
 #{/set}
 
 <div class="panel">
+
+#{ifErrors}
+   <p style="color: red;">Greska!</p>
+#{/ifErrors}
 	
 	<p>
 		<form action=${action} method="post">
@@ -98,6 +102,7 @@
 			#{field 'PIB'}
 				<label for="${field.id}">PIB</label>
 				<input type="text" name = "${field.name}" id = "${field.name}"/>
+				<span class="error">#{error 'PIB' /}</span>
 			#{/}
 			</p>
 			
@@ -105,36 +110,42 @@
 			#{field 'naziv'}
 				<label for="${field.id}">Naziv</label>
 				<input type="text" name="${field.name}" id="${field.name}"/>
+				<span class="error">#{error 'naziv' /}</span>
 			#{/}
 			</p>
 			<p>
 			#{field 'adresa'}
 				<label for="${field.id}">Adresa</label>
 				<input type="text" name="${field.name}" id="${field.name}"/>
+				<span class="error">#{error 'adresa' /}</span>
 			#{/}
 			</p>
 			<p>
 			#{field 'maticniBroj'}
 				<label for="${field.id}">Maticni Broj</label>
 				<input type="text" name="${field.name}" id="${field.name}"/>
+				<span class="error">#{error 'maticniBroj' /}</span>
 			#{/}
 			</p>
 			<p>
 			#{field 'sifraDelatnosti'}
 				<label for="${field.id}">Sifra Delatnosti</label>
 				<input type="text" name="${field.name}" id="${field.name}"/>
+				<span class="error">#{error 'sifraDelatnosti' /}</span>
 			#{/}
 			</p>
 			<p>
 			#{field 'telefon'}
 				<label for="${field.id}">Telefon</label>
 				<input type="text" name="${field.name}" id="${field.name}"/>
+				<span class="error">#{error 'telefon' /}</span>
 			#{/}
 			</p>
 			<p>
 			#{field 'email'}
 				<label for="${field.id}">Email</label>
 				<input type="text" name="${field.name}" id="${field.name}"/>
+				<span class="error">#{error 'email' /}</span>
 			#{/}
 			</p>
 			

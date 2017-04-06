@@ -20,7 +20,7 @@ public class RobeUsluge extends Controller {
 		render(robeUsluge, grupe, mode);
 	}
 	
-	public static void add(@Required String naziv, String jedinicaMere, long grupa){
+	public static void add(@Required String naziv, @Required String jedinicaMere, long grupa){
 		if(validation.hasErrors()){
 			for(Error error : validation.errors()){
 				System.out.println(error.message());
@@ -44,7 +44,7 @@ public class RobeUsluge extends Controller {
 		renderTemplate("RobeUsluge/show.html", robeUsluge, mode);
 	}
 	
-	public static void edit(@Required String naziv, String jedinicaMere, long grupa, long id){
+	public static void edit(@Required String naziv, @Required String jedinicaMere, long grupa, long id){
 		RobaUsluga r = RobaUsluga.findById(id);
 		r.naziv = naziv;
 		r.jedinicaMere = jedinicaMere;

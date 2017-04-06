@@ -64,8 +64,10 @@ public class StavkeNarudzbenice extends Controller {
 		stavke.robaUsluga = RobaUsluga.findById(robaUsluga);
 		stavke.narudzbenica = Narudzbenica.findById(narudzbenica);
 		Narudzbenica n = Narudzbenica.findById(narudzbenica);
+		
 		float novaKolicina = n.kolicina - stavke.kolicina;
 		stavke.kolicina = kolicina;
+		
 		stavke.ukupnaCena = kolicina*cenaPoJediniciMere;
 		n.kolicina = novaKolicina + kolicina;
 		n.save();

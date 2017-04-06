@@ -15,6 +15,7 @@ import models.PoslovniPartner;
 
 import models.StavkeFakture;
 import play.data.validation.Error;
+import play.data.validation.Required;
 import play.mvc.Controller;
 
 public class IzlazneFakture extends Controller {
@@ -35,7 +36,7 @@ public class IzlazneFakture extends Controller {
 	public static void add(int brojFakture, Date datumFakture,
 			Date datumValute, Date datumObracuna,
 			float ukupnoRobe, float ukupanRabat, float ukupanPorez, float iznosFakture,
-			float iznosFaktureOsnovica, String uplataNaRacun, String pozivNaBroj,
+			float iznosFaktureOsnovica,@Required String uplataNaRacun, @Required String pozivNaBroj,
 			String statusFakture, long poslovniPartner, long poslovnaGodina,
 			long otpremnica){
 		if(validation.hasErrors()){

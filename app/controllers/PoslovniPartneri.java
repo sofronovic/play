@@ -23,7 +23,7 @@ public class PoslovniPartneri extends Controller {
 	}
 	
 	
-	public static void add(@Required String nazivPartnera, String adresa, String vrstaPartnera, long preduzece)
+	public static void add(@Required String nazivPartnera,@Required String adresa, String vrstaPartnera, long preduzece)
 	{
 		if(validation.hasErrors()) {
 			for(Error error : validation.errors()) {
