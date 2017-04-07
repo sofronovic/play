@@ -54,7 +54,6 @@ public class StavkeFaktura extends Controller {
 				stavkeFakture.osnovica = stavkeFakture.cenaPoJediniciMere*kolicina-iznosRabata;
 			
 			}
-			//r.grupa.porez.poreskaStopa.get(0).iznosStope/100;
 			stavkeFakture.pdv = r.grupa.porez.poreskaStopa.get(0).iznosStope/100;
 			stavkeFakture.pdvIznos = stavkeFakture.osnovica*stavkeFakture.pdv;
 			stavkeFakture.ukupanIznos = stavkeFakture.osnovica+stavkeFakture.pdvIznos;
