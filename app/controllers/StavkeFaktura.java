@@ -25,7 +25,7 @@ public class StavkeFaktura extends Controller {
 		render(stavkeFakture, izlazneFakture, robaUsluga, mode);
 	}
 	
-	public static void add(@Required @Min(1) float kolicina, @Min(0)float cenaPoJediniciMere, @Min(0)float rabat,
+	public static void add(@Required @Min(1) float kolicina, @Min(0)float rabat,
 		 float pdv, long izlaznaFaktura, long robaUsluga)
 	{
 		if(validation.hasErrors()) {
@@ -37,14 +37,24 @@ public class StavkeFaktura extends Controller {
 			show("add");
 		}else {
 			StavkeFakture stavkeFakture = new StavkeFakture();
+			RobaUsluga r = RobaUsluga.findById(robaUsluga);
 			
 			stavkeFakture.kolicina = kolicina;
-			stavkeFakture.cenaPoJediniciMere = cenaPoJediniciMere;
+			stavkeFakture.cenaPoJediniciMere = r.stavkeCenovnika.get(0).jedinicnaCena;
 			stavkeFakture.rabat = rabat/100;
+			float iznosRabata = 0;
 			if(rabat == 0){
-				stavkeFakture.osnovica = cenaPoJediniciMere*kolicina;
-			}else{stavkeFakture.osnovica = cenaPoJediniciMere*kolicina-rabat/100;}
-			stavkeFakture.pdv = pdv/100;
+				
+				stavkeFakture.osnovica = stavkeFakture.cenaPoJediniciMere*kolicina;
+	
+			}else{
+				
+				float vrednost = stavkeFakture.cenaPoJediniciMere*kolicina;
+				iznosRabata = vrednost * rabat/100;
+				stavkeFakture.osnovica = stavkeFakture.cenaPoJediniciMere*kolicina-iznosRabata;
+			
+			}
+			stavkeFakture.pdv = r.grupa.porez.poreskaStopa.get(0).iznosStope/100;
 			stavkeFakture.pdvIznos = stavkeFakture.osnovica*stavkeFakture.pdv;
 			stavkeFakture.ukupanIznos = stavkeFakture.osnovica+stavkeFakture.pdvIznos;
 			stavkeFakture.robaUsluga = RobaUsluga.findById(robaUsluga);
@@ -53,10 +63,10 @@ public class StavkeFaktura extends Controller {
 			IzlaznaFaktura faktura = IzlaznaFaktura.findById(izlaznaFaktura);
 			faktura.ukupanPorez+=stavkeFakture.pdvIznos;
 			faktura.ukupnoRobe+=stavkeFakture.kolicina;
-			faktura.ukupanRabat = 0;
+			faktura.ukupanRabat += iznosRabata;
 			faktura.iznosFakture+=stavkeFakture.ukupanIznos	;
 			faktura.iznosFaktureOsnovica+=stavkeFakture.osnovica;
-			
+			faktura.statusFakture = "Obracunata";
 			
 			faktura.save();
 			stavkeFakture.save();
@@ -86,9 +96,18 @@ public class StavkeFaktura extends Controller {
 		stavkeFakture.kolicina = kolicina;
 		stavkeFakture.cenaPoJediniciMere = cenaPoJediniciMere;
 		stavkeFakture.rabat = rabat/100;
+		float iznosRabata = 0;
 		if(rabat == 0){
-			stavkeFakture.osnovica = cenaPoJediniciMere*kolicina;
-		}else{stavkeFakture.osnovica = cenaPoJediniciMere*kolicina-rabat/100;}
+			
+			stavkeFakture.osnovica = stavkeFakture.cenaPoJediniciMere*kolicina;
+
+		}else{
+			
+			float vrednost = stavkeFakture.cenaPoJediniciMere*kolicina;
+			iznosRabata = vrednost * rabat/100;
+			stavkeFakture.osnovica = stavkeFakture.cenaPoJediniciMere*kolicina-iznosRabata;
+		
+		}
 		stavkeFakture.pdv = pdv/100;
 		stavkeFakture.pdvIznos = stavkeFakture.osnovica*stavkeFakture.pdv;
 		stavkeFakture.ukupanIznos = stavkeFakture.osnovica+stavkeFakture.pdvIznos;
@@ -97,8 +116,13 @@ public class StavkeFaktura extends Controller {
 		
 		IzlaznaFaktura faktura = IzlaznaFaktura.findById(izlaznaFaktura);
 		faktura.ukupanPorez+=stavkeFakture.pdvIznos;
-		faktura.ukupnoRobe+=stavkeFakture.kolicina;
-		faktura.ukupanRabat = 0;
+		
+		float novaUkupnoRobe = faktura.ukupnoRobe - stavkeFakture.kolicina;
+		stavkeFakture.kolicina = kolicina;
+		
+		faktura.ukupnoRobe = novaUkupnoRobe + kolicina;
+
+		faktura.ukupanRabat += iznosRabata;
 		faktura.iznosFakture+=stavkeFakture.ukupanIznos;
 		faktura.iznosFaktureOsnovica+=stavkeFakture.osnovica;
 		
