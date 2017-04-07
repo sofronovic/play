@@ -1,4 +1,49 @@
-#{extends 'main.html' /}
-#{set title:'Home' /}
+ <head>
+<link rel="stylesheet" type="text/css" href="../public/stylesheets/main.css">
+</head>
+<html>
 
-#{welcome /}
+	<header class=header>
+		<h1>Plasman robe i usluga</h1>
+	</header>
+	<body>
+	
+	<div class="div2">
+		
+		<a href="@{Cenovnici.show("copy")}" id = "copy">Kopiranje cenovnika</a>
+		<a href="@{Narudzbenice.show("generator")}" id = "nextform">Fakturisanje</a>
+		<a href="@{IzlazneFakture.show("export")}" id ="export">Export fakture</a>
+		<a href="@{IzlazneFakture.show("generate")}" id ="generate">Generisanje otpremnice</a>
+		
+	</div>
+	
+	
+	<div class="div1">
+		
+		<a href="@{Cenovnici.show("")}" id = "">Cenovnici</a>
+		<a href="@{Grupe.show("")}" id = "">Grupe</a>
+		<a href="@{IstorijePoreza.show("")}" id = "">Istorije poreza</a>
+		<a href="@{IzlazneFakture.show("")}" id = "">Izlazne fakture</a>
+		<a href="@{Narudzbenice.show("")}" id = "">Narudzbenice</a>
+		<a href="@{ObracunatiPorezi.show("")}" id = "">Obracunati porezi</a>
+		<a href="@{Otpremnice.show("")}" id = "">Otpremnice</a>
+		<a href="@{PoreskeStope.show("")}" id = "">Poreske stope</a>
+		<a href="@{Porezi.show("")}" id = "">Porezi</a>
+		
+	</div>
+	
+	<div class="div1">
+	<a href="@{Porezi.show("")}" id = "">Porezi</a>
+		<a href="@{PoslovneGodine.show("")}" id = "">Poslovne godine</a>
+		<a href="@{PoslovniPartneri.show("")}" id = "">Poslovni partneri</a>
+		<a href="@{Preduzeca.show("")}" id = "">Preduzeca</a>
+		<a href="@{RobeUsluge.show("")}" id = "">Robe/Usluge</a>
+		<a href="@{StavkeCenovnici.show("")}" id = "">Stavke cenovnika</a>
+		<a href="@{StavkeFaktura.show("")}" id = "">Stavke fakture</a>
+		<a href="@{StavkeNarudzbenice.show("")}" id = "">Stavke narudzbenice</a>
+		<a href="@{StavkeOtpremniceController.show("")}" id = "">Stavke otpremnice</a></div>
+		
+	</body>
+
+
+</html>
