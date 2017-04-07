@@ -51,7 +51,7 @@ public class Narudzbenice extends Controller {
 	}
 	
 	public static void filter(int brojNarudzbenice, float kolicina, long poslovnaGodina, long poslovniPartner){
-		List<Narudzbenica> narudzbenice = Narudzbenica.find("byBrojNarudzbeniceLikeAndKolicinaLikeAndPoslovnaGodina_idAndPoslovniPartner_id", brojNarudzbenice, kolicina, poslovnaGodina, poslovniPartner).fetch();
+		List<Narudzbenica> narudzbenice = Narudzbenica.find("byBrojNarudzbeniceLike", brojNarudzbenice).fetch();
 /*		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.findAll();
 		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.findAll();*/
 		String mode = "edit";

@@ -39,8 +39,8 @@ public class Grupe extends Controller{
 		}
 	}
 	
-	public static void filter(String naziv, long preduzece, long porez){
-		List<Grupa> grupe = Grupa.find("byNazivLikeAndPreduzece_idAndPorez_id", naziv, preduzece, porez).fetch();
+	public static void filter(String naziv){
+		List<Grupa> grupe = Grupa.find("byNazivLike", naziv).fetch();
 		List<Preduzece> preduzeca = Preduzece.findAll();
 		List<Porez> porezi = Porez.findAll();
 		String mode = "edit";

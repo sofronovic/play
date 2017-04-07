@@ -79,7 +79,7 @@ public class IzlazneFakture extends Controller {
 			String statusFakture, long poslovniPartner, long poslovnaGodina,
 			long otpremnica){
 		List<IzlaznaFaktura> izlazneFakture = IzlaznaFaktura.find(
-				"byBrojFaktureLikeAndDatumFaktureLike", brojFakture, datumFakture).fetch();
+				"byBrojFaktureLike", brojFakture).fetch();
 		String mode = "edit";
 		renderTemplate("IzlazneFakture/show.html", izlazneFakture, mode);
 	}
@@ -150,6 +150,7 @@ public class IzlazneFakture extends Controller {
 				o.poslovnaGodina = PoslovnaGodina.findById(poslovnaGodina);
 				o.poslovniPartner = PoslovniPartner.findById(poslovniPartner);
 				o.save();
+			
 			System.out.println(o);
 			
 			for(StavkeFakture stavkeFakture : faktura.stavkeFakture)
@@ -164,6 +165,7 @@ public class IzlazneFakture extends Controller {
 				
 				
 			}
+			
 			show("");
 		}
 	

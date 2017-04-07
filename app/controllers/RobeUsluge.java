@@ -39,9 +39,10 @@ public class RobeUsluge extends Controller {
 	}
 	
 	public static void filter(String naziv, String jedinicaMere, long grupa){
-		List<RobaUsluga> robeUsluge = RobaUsluga.find("byNazivLikeAndJedinicaMereLikeAndGrupa_id", naziv, jedinicaMere, grupa).fetch();
+		List<RobaUsluga> robeUsluge = RobaUsluga.find("byNazivLike", naziv).fetch();
+		List<Grupa> grupaa = Grupa.findAll();
 		String mode = "edit";
-		renderTemplate("RobeUsluge/show.html", robeUsluge, mode);
+		renderTemplate("RobeUsluge/show.html", robeUsluge, grupaa, mode);
 	}
 	
 	public static void edit(@Required String naziv, String jedinicaMere, long grupa, long id){

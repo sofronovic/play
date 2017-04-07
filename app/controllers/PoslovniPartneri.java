@@ -6,6 +6,7 @@ import models.IzlaznaFaktura;
 import models.Narudzbenica;
 import models.ObracunatiPorez;
 import models.Otpremnica;
+import models.PoslovnaGodina;
 import models.PoslovniPartner;
 import models.Preduzece;
 import play.data.validation.Error;
@@ -41,6 +42,13 @@ public class PoslovniPartneri extends Controller {
 			validation.keep();
 			show("add");
 	}
+	}
+	
+	
+	public static void filter(String nazivPartnera){
+		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.find("byNazivPartneraLike", nazivPartnera).fetch();
+		String mode = "edit";
+		renderTemplate("PoslovniPartneri/show.html", poslovniPartneri, mode);
 	}
 	
 	

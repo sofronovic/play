@@ -58,7 +58,7 @@ public class StavkeNarudzbenice extends Controller {
 		
 	}
 	
-	public static void edit(float kolicina, float cenaPoJediniciMere, float ukupnaCena, long robaUsluga, long narudzbenica, long id){
+	public static void edit(float kolicina, float cenaPoJediniciMere, long robaUsluga, long narudzbenica, long id){
 		StavkaNarudzbenice stavke = StavkaNarudzbenice.findById(id);
 		stavke.cenaPoJediniciMere = cenaPoJediniciMere;
 		stavke.robaUsluga = RobaUsluga.findById(robaUsluga);

@@ -51,9 +51,7 @@ public class Otpremnice extends Controller {
 	
 	public static void filter(int brojOtpremnice, Date datumOtpremnice, float osnovica, float ukupanPdv,
 			float iznosZaPlacanje, long poslovniPartner, long poslovnaGodina, long narudzbenica){
-			List<Otpremnica> otpremnice = Otpremnica.find("byBrojOtpremniceLikeAndDatumOtpremniceLikeAndOsnovicaLikeAndUkupanPdvLikeAnd"
-				+ "IznosZaPlacanjeLikeAndPoslovniPartner_idAndPoslovnaGodina_idAndNarudzbenica_id", brojOtpremnice, datumOtpremnice, osnovica, ukupanPdv,
-				iznosZaPlacanje, poslovniPartner, poslovnaGodina, narudzbenica).fetch();
+			List<Otpremnica> otpremnice = Otpremnica.find("byBrojOtpremniceLike", brojOtpremnice).fetch();
 			String mode = "edit";
 			renderTemplate("Otpremnice/show.html", otpremnice, mode);
 	}

@@ -41,7 +41,7 @@ public class PoslovneGodine extends Controller {
 	}
 	
 	public static void filter(int godina, boolean zakljucena, long preduzece){
-		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.find("byGodinaLikeAndZakljucenaLikeAndPreduzece_id", godina, zakljucena, preduzece).fetch();
+		List<PoslovnaGodina> poslovneGodine = PoslovnaGodina.find("byGodinaLike", godina).fetch();
 		String mode = "edit";
 		renderTemplate("PoslovneGodine/show.html", poslovneGodine, mode);
 	}

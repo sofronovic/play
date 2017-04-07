@@ -36,7 +36,7 @@ public class Porezi extends Controller{
 	}
 	
 	public static void filter(String nazivPoreza, boolean vazeci){
-		List<Porez> porezi = Porez.find("byNazivPoreza", "%"+nazivPoreza+"%").fetch();
+		List<Porez> porezi = Porez.find("byNazivPorezaLike", nazivPoreza).fetch();
 		String mode = "edit";
 		renderTemplate("Porezi/show.html", porezi, mode);
 		

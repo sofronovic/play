@@ -44,8 +44,7 @@ public class Preduzeca extends Controller {
 	
 	public static void filter(@Required int PIB, String naziv, String adresa, int maticniBroj, int sifraDelatnosti, int telefon,
 			String email){
-		List<Preduzece> preduzeca = Preduzece.find("byPIBLikeAndNazivLikeAndAdresaLikeAndMaticniBrojLikeAndSifraDelatnostiLikeAndTelefonLikeAndEmail", 
-				"%" + PIB + "%", "%" + naziv + "%", "%" + adresa + "%", "%" + maticniBroj + "%", "%" +sifraDelatnosti + "%", "%" +telefon + "%", "%" + email + "%").fetch();
+		List<Preduzece> preduzeca = Preduzece.find("byNazivLike", naziv).fetch();
 		String mode = "edit";
 		renderTemplate("Preduzeca/show.html", preduzeca, mode);
 		

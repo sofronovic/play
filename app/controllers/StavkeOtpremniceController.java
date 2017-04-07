@@ -56,7 +56,7 @@ public class StavkeOtpremniceController extends Controller {
 		StavkeOtpremnice s = StavkeOtpremnice.findById(id);
 		s.kolicina = kolicina;
 		s.cenaPoJediniciMere = cenaPoJediniciMere;
-		s.ukupnaCena = ukupnaCena;
+		s.ukupnaCena = kolicina * cenaPoJediniciMere;
 		s.otpremnica = Otpremnica.findById(otpremnica);
 		s.robaUsluga = RobaUsluga.findById(robaUsluga);
 		s.save();
